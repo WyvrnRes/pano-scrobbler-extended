@@ -68,7 +68,7 @@ android {
         getByName("debug") {
             versionNameSuffix = " DEBUG"
             val simulatePremiumInDebug =
-                localProperties["debug.simulatePremium"]?.toBooleanStrictOrNull() ?: false
+                localProperties["debug.simulatePremium"]?.toBooleanStrictOrNull() ?: true
             buildConfigField("boolean", "SIMULATE_PREMIUM", simulatePremiumInDebug.toString())
         }
 
