@@ -166,13 +166,20 @@ private fun init() {
 
     PanoNativeComponents.init()
 
+    val lastCheckTimeFlow = flow<Long> {
+        emitAll(PlatformStuff.mainPrefs.data.map { it.lastLicenseCheckTime })
+    }
+    val receiptFlow = flow<Pair<String?, String?>> {
+        emitAll(PlatformStuff.mainPrefs.data.map { it.receipt to it.receiptSignature })
+    }
+
     VariantStuff.billingRepository = BillingRepository(
         scope = Stuff.appScope,
-        lastCheckTime = flow { emitAll(Stuff.receiptFlow) },
+        lastCheckTime = lastCheckTimeFlow,
         setLastcheckTime = { time ->
             PlatformStuff.mainPrefs.updateData { it.copy(lastLicenseCheckTime = time) }
         },
-        receipt = flow { emitAll(PlatformStuff.mainPrefs.data.map { it.receipt to it.receiptSignature }) },
+        receipt = receiptFlow,
         setReceipt = Stuff::setReceipt,
         httpPost = Stuff::httpPost,
         deviceIdentifier = PlatformStuff::getDeviceIdentifier,

@@ -48,6 +48,32 @@ Currently, the FOSS builds skip this step.
 
 - Compile the native lib https://github.com/kawaiiDango/pano-native-components
 
+- On Windows, the simplest entry point is the repo-root script:
+
+```
+powershell -ExecutionPolicy Bypass -File .\build-windows.ps1 -Target Compile
+```
+
+- Common Windows targets:
+
+```
+powershell -ExecutionPolicy Bypass -File .\build-windows.ps1 -Target Distributable
+powershell -ExecutionPolicy Bypass -File .\build-windows.ps1 -Target Inno
+powershell -ExecutionPolicy Bypass -File .\build-windows.ps1 -Target Nsis
+```
+
+- Packaging on Windows expects native resources under `composeApp/resources/windows-x64`.
+- `build-windows.ps1` now tries to auto-detect a usable Windows native resource folder and sync it automatically before packaging.
+- If auto-detection does not find anything, use the companion script explicitly:
+
+```
+powershell -ExecutionPolicy Bypass -File .\sync-windows-native-resources.ps1 -Source <path-to-windows-x64-native-resources> -Force
+```
+
+- The source directory must contain at least:
+  - `pano_native_components.dll`
+  - `native_webview.dll`
+
 - If you intend to package a build for desktop,
   use [Bellsoft's GraalVM based on OpenJDK 25](https://bell-sw.com/pages/downloads/native-image-kit/)
   as your Gradle JDK and run Gradle packageUberJarForCurrentOS. Also

@@ -246,6 +246,17 @@ actual object PlatformStuff {
         }
     }
 
+    actual suspend fun createYouTubeMusicPlaylist(
+        playlistName: String,
+        description: String,
+        authFileUri: String,
+        tracks: List<Track>,
+    ): Result<YouTubeMusicPlaylistResult> {
+        return Result.failure(
+            UnsupportedOperationException("YouTube Music playlist creation using ytmusicapi is only available on desktop.")
+        )
+    }
+
     @OptIn(ExperimentalRoomApi::class)
     actual fun getDatabaseBuilder(): RoomDatabase.Builder<PanoDb> {
         val dbFile = applicationContext.getDatabasePath("pendingScrobbles")

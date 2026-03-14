@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.datastore.core.DataStore
 import androidx.room.RoomDatabase
 import com.arn.scrobble.api.lastfm.MusicEntry
+import com.arn.scrobble.api.lastfm.Track
 import com.arn.scrobble.db.PanoDb
 import com.arn.scrobble.pref.MainPrefs
 import java.io.File
@@ -45,6 +46,13 @@ expect object PlatformStuff {
         musicEntry: MusicEntry,
         appId: String?,
     )
+
+    suspend fun createYouTubeMusicPlaylist(
+        playlistName: String,
+        description: String,
+        authFileUri: String,
+        tracks: List<Track>,
+    ): Result<YouTubeMusicPlaylistResult>
 
     fun getDatabaseBuilder(): RoomDatabase.Builder<PanoDb>
 

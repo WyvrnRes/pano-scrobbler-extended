@@ -92,6 +92,12 @@
         comment="top tracks the user has listened to, or most scrobbled tracks of an artist"
         >Top tracks</string>
     <string name="similar_tracks">Similar tracks</string>
+    <string name="yt_music_playlist_unheard_recs">YouTube Music playlist</string>
+    <string name="yt_music_playlist_desc">Create a YouTube Music playlist from recommended tracks you have not listened to before. This desktop feature uses your indexed scrobbles and a ytmusicapi auth JSON file.</string>
+    <string name="yt_music_auth_file" formatted="true">Auth file: %1$s</string>
+    <string name="yt_music_auth_file_pick">Select auth file</string>
+    <string name="yt_music_auth_file_missing">Select a ytmusicapi auth JSON file to enable playlist creation.</string>
+    <string name="yt_music_playlist_created" formatted="true">Created a YouTube Music playlist with %1$d tracks.</string>
     <string name="state_scrobbling">Now scrobbling…</string>
     <string name="state_scrobbled">Scrobbled</string>
     <string name="state_unscrobbled">Unscrobbled</string>

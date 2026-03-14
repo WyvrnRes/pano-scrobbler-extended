@@ -55,6 +55,22 @@ Installing the non-Play version from the F-Droid compatible repo, IzzyOnDroid or
 
 ## [FAQ](faq.md) • [Privacy](privacy-policy.md) • [Compiling](instructions.md)
 
+### Building on Windows
+
+Use the repo-root PowerShell wrapper for the desktop build:
+
+```
+powershell -ExecutionPolicy Bypass -File .\build-windows.ps1 -Target Compile
+```
+
+If packaging cannot find native Windows resources automatically, sync them first with:
+
+```
+powershell -ExecutionPolicy Bypass -File .\sync-windows-native-resources.ps1 -Source <path-to-windows-x64-native-resources> -Force
+```
+
+For distributables or installers, see `instructions.md`.
+
 ### Features:
 
 #### For all platforms (Windows, Linux, Android, Android TV):

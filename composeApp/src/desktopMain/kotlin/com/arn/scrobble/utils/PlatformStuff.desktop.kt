@@ -148,6 +148,20 @@ actual object PlatformStuff {
         openInBrowser(searchUrl)
     }
 
+    actual suspend fun createYouTubeMusicPlaylist(
+        playlistName: String,
+        description: String,
+        authFileUri: String,
+        tracks: List<Track>,
+    ): Result<YouTubeMusicPlaylistResult> {
+        return YouTubeMusicPlaylistCreator.createPlaylist(
+            playlistName = playlistName,
+            description = description,
+            authFileUri = authFileUri,
+            tracks = tracks,
+        )
+    }
+
     actual fun getDatabaseBuilder(): RoomDatabase.Builder<PanoDb> {
         val dbFile = File(filesDir, "panodb.db")
         return Room.databaseBuilder<PanoDb>(
