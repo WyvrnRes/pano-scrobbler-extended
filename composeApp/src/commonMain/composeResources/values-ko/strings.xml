@@ -76,7 +76,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">서비스</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">%2$s %1$s을 듣고 있었습니다</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s은 %2$s %1$s을 듣고 있었습니다</string>
-    <string name="share_sig">(Pano Scrobbler를 통해)</string>
+    <string name="share_sig">(Pano Scrobbler Extended를 통해)</string>
     <string name="share">공유하기</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">범례</string>
     <string name="grid" comment="Grid view">그리드</string>
@@ -297,7 +297,7 @@
     <string name="downloading">다운로드 중</string>
     <string name="download" comment="Its a verb">다운로드</string>
     <string name="changelog">변경 내역</string>
-    <string name="import_hey_wtf">Pano Scrobbler 내보내기 파일이 아닙니다</string>
+    <string name="import_hey_wtf">Pano Scrobbler Extended 내보내기 파일이 아닙니다</string>
     <string name="imported">불러옴</string>
     <string name="import_options">불러오기 옵션</string>
     <string name="import_lists_nope">편집 내역과 차단 목록을 가져오지 않기</string>
@@ -308,7 +308,7 @@
     <string name="copied">복사되었습니다!</string>
     <string name="lastfm_reauth">스크로블을 편집하거나 삭제하려면 다시 인증해야 합니다</string>
     <string name="failed_encode_url">URL 인코딩 실패</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">%1$s 확인</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">%1$s 확인</string>
     <string name="no_browser">브라우저가 설치되어 있지 않습니다</string>
     <string name="no_player">음악 플레이어가 설치되어 있지 않습니다</string>
     <string name="not_running">⚠ 스크로블러가 시스템에 의해 종료되었습니다</string>

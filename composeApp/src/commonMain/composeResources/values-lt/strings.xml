@@ -115,7 +115,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Paslaugos</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Klausiausi\n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s klausėsi\n%1$s %2$s</string>
-    <string name="share_sig">(per „Pano Scrobbler“)</string>
+    <string name="share_sig">(per „Pano Scrobbler Extended“)</string>
     <string name="share">Bendrinti</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Legenda</string>
     <string name="grid" comment="Grid view">Tinklelis</string>
@@ -342,7 +342,7 @@
     <string name="downloading">Atsisiunčiama</string>
     <string name="download" comment="Its a verb">Atsisiųsti</string>
     <string name="changelog">Pakeitimų žurnalas</string>
-    <string name="import_hey_wtf">Tai tikriausiai ne „Pano Scrobbler“ eksporto failas.</string>
+    <string name="import_hey_wtf">Tai tikriausiai ne „Pano Scrobbler Extended“ eksporto failas.</string>
     <string name="imported">Importuota</string>
     <string name="import_options">Importavimo parinktys</string>
     <string name="import_lists_nope">Neimportuoti redagavimus ir blokavimo sąrašą</string>
@@ -354,7 +354,7 @@
     <string name="lastfm_reauth">Norint redaguoti arba ištrinti skroblus, reikia iš naujo nustatyti tapatumą.</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">„%1$s“ tipo serveris</string>
     <string name="failed_encode_url">Nepavyko užkoduoti URL.</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Patikrinkite „%1$s“</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Patikrinkite „%1$s“</string>
     <string name="no_browser">Nėra įdiegta naršyklė</string>
     <string name="no_player">Nėra įdiegta muzikos leistuvė</string>
     <string name="not_running">⚠ Sistema sustabdė skroboklį</string>
@@ -396,7 +396,7 @@
     <string name="reload" comment="Reload or refresh">Įkelti iš naujo</string>
     <string name="pref_tray_icon_theme">Juostelės piktogramos tema</string>
     <string name="min_track_duration">Skrobolinti takelius ilgiau nei</string>
-    <string name="automation">Valdyti „Pano Scrobbler“ iš automatinių programų</string>
+    <string name="automation">Valdyti „Pano Scrobbler Extended“ iš automatinių programų</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">Šalis platformai „%1$s“ metaduomenų</string>
     <string name="login_in_browser">Užbaikite prisijungimą naršyklės lange.</string>
     <string name="edit_no_save">Tai nebus išsaugota ateities skroblams.</string>

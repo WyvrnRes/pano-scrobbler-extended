@@ -76,7 +76,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Layanan</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Saya sedang mendengarkan\n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s sedang mendengarkan\n%1$s %2$s</string>
-    <string name="share_sig">(melalui Pano Scrobbler)</string>
+    <string name="share_sig">(melalui Pano Scrobbler Extended)</string>
     <string name="share">Bagikan</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Legendaris</string>
     <string name="grid" comment="Grid view">Kisi (Grid)</string>
@@ -300,7 +300,7 @@
     <string name="downloading">Mengunduh</string>
     <string name="download" comment="Its a verb">Unduh</string>
     <string name="changelog">Catatan Perubahan Versi</string>
-    <string name="import_hey_wtf">Itu mungkin bukan file ekspor Pano Scrobbler</string>
+    <string name="import_hey_wtf">Itu mungkin bukan file ekspor Pano Scrobbler Extended</string>
     <string name="imported">Diimpor</string>
     <string name="import_options">Pilihan impor</string>
     <string name="import_lists_nope">Jangan mengimpor hasil edit dan daftar blokir</string>
@@ -312,7 +312,7 @@
     <string name="lastfm_reauth">Anda perlu mengautentikasi ulang untuk mengedit atau menghapus scrobble</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">Instansi seperti %1$s</string>
     <string name="failed_encode_url">Gagal menyandikan URL</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Cek %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Cek %1$s</string>
     <string name="no_browser">Tidak ada browser yang diinstal</string>
     <string name="no_player">Tidak ada pemutar musik yang dipasang</string>
     <string name="not_running">⚠ Scrobbler dimatikan oleh sistem Anda</string>
@@ -354,7 +354,7 @@
     <string name="reload" comment="Reload or refresh">Muat ulang</string>
     <string name="pref_tray_icon_theme">Tema ikon tray</string>
     <string name="min_track_duration">Scrobble lagu yang lebih panjang dari</string>
-    <string name="automation">Kontrol Pano Scrobbler dari aplikasi otomatisasi</string>
+    <string name="automation">Kontrol Pano Scrobbler Extended dari aplikasi otomatisasi</string>
     <!--  pro  -->
     <string name="get_pro">Dukung aplikasi ini</string>
     <string name="help">Bantuan</string>

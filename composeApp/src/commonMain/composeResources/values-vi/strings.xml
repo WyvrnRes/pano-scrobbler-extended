@@ -57,7 +57,7 @@
     <string name="choose_an_app">Chọn một ứng dụng</string>
     <string name="apps" comment="Currently appears on the regex edit dialog showing the selected apps and allowing the user to add more apps">Ứng dụng</string>
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Các dịch vụ</string>
-    <string name="share_sig">(bởi Pano Scrobbler)</string>
+    <string name="share_sig">(bởi Pano Scrobbler Extended)</string>
     <string name="share">Chia sẻ</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Chú thích</string>
     <string name="list" comment="Single column list view">Danh sách</string>
@@ -152,7 +152,7 @@
     <string name="changelog">Nhật kí thay đổi</string>
     <string name="imported">Đã nhập</string>
     <string name="copied">Đã sao chép!</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Kiểm tra %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Kiểm tra %1$s</string>
     <string name="no_browser">Không có trình duyệt trên thiết bị</string>
     <string name="kill_reason" comment="%1= reason for the app kill" formatted="true">Lý do: %1$s</string>
     <string name="login_submit" comment="Verifies the login details">Xác thực</string>

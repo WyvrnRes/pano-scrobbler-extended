@@ -109,7 +109,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Usługi</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Słuchałem\n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s słuchał/a\n%1$s %2$s</string>
-    <string name="share_sig">(przez Pano Scrobbler)</string>
+    <string name="share_sig">(przez Pano Scrobbler Extended)</string>
     <string name="share">Udostępnij</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Legenda</string>
     <string name="grid" comment="Grid view">Siatka</string>
@@ -336,7 +336,7 @@ https://www.google.com/search?q=regex+named+capture+groups</string>
     <string name="downloading">Pobieranie</string>
     <string name="download" comment="Its a verb">Pobierz</string>
     <string name="changelog">Lista zmian</string>
-    <string name="import_hey_wtf">To prawdopodobnie nie jest plik eksportu Pano Scrobbler</string>
+    <string name="import_hey_wtf">To prawdopodobnie nie jest plik eksportu Pano Scrobbler Extended</string>
     <string name="imported">Zaimportowano</string>
     <string name="import_options">Opcje importu</string>
     <string name="import_lists_nope">Nie importuj edycji i listy blokowania</string>
@@ -348,7 +348,7 @@ https://www.google.com/search?q=regex+named+capture+groups</string>
     <string name="lastfm_reauth">Uwierzytelnii ponownie, aby edytować lub usunąć scrobble</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">Instancja podobna do %1$s</string>
     <string name="failed_encode_url">Nie udało się wprowadzić adresu URL</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Sprawdź %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Sprawdź %1$s</string>
     <string name="no_browser">Brak zainstalowanej przeglądarki</string>
     <string name="no_player">Brak zainstalowanego odtwarzacza muzyki</string>
     <string name="not_running">⚠ Scrobbler został zabity przez twój system</string>
@@ -390,7 +390,7 @@ https://www.google.com/search?q=regex+named+capture+groups</string>
     <string name="reload" comment="Reload or refresh">Przeładuj</string>
     <string name="pref_tray_icon_theme">Motyw ikony zasobnika</string>
     <string name="min_track_duration">Scrobbluj piosenki dłuższe niż</string>
-    <string name="automation">Kontroluj Pano Scrobbler z aplikacji automatyzacyjnych</string>
+    <string name="automation">Kontroluj Pano Scrobbler Extended z aplikacji automatyzacyjnych</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">Kraj dla metadanych %1$s</string>
     <string name="login_in_browser">Ukończ logowanie w oknie przeglądarki</string>
     <string name="edit_no_save">To nie będzie zapisywane dla przyszłych scrobbli</string>

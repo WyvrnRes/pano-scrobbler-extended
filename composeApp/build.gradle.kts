@@ -194,8 +194,8 @@ buildkonfig {
         val lastfmSecret = localProperties["lastfm.secret"]
             ?: throw IllegalStateException("lastfm.secret not found in local.properties")
 
-        val spotifyRefreshToken = localProperties["spotify.refreshToken"]
-            ?: throw IllegalStateException("spotify.refreshToken not found in local.properties")
+        val spotifyRefreshToken = localProperties["spotify.refreshToken"].orEmpty()
+
 
         buildConfigField(
             STRING,
@@ -212,7 +212,7 @@ buildkonfig {
         buildConfigField(
             STRING,
             "SPOTIFY_REFRESH_TOKEN",
-            xor(spotifyRefreshToken, APP_ID),
+            if (spotifyRefreshToken.isNotEmpty()) xor(spotifyRefreshToken, APP_ID) else "",
             const = true
         )
 
@@ -515,8 +515,10 @@ tasks.register<Exec>("generateRc") {
         ?.let { File(it, "x64\\rc.exe") }
         ?.absolutePath
 
-    if (rcExe == null)
-        throw GradleException("rc.exe not found. Please install Windows 10 SDK.")
+    if (rcExe == null) {
+        enabled = false
+        return@register
+    }
 
     // compile rc to res
     val command = listOf(

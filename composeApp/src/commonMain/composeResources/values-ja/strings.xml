@@ -76,7 +76,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">サービス</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">%1$s\nを%2$sに聴きました</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$sさんは%1$s\nを%2$sに聴きました</string>
-    <string name="share_sig">(Pano Scrobblerより)</string>
+    <string name="share_sig">(Pano Scrobbler Extendedより)</string>
     <string name="share">共有</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">アイコン説明</string>
     <string name="grid" comment="Grid view">グリッド</string>
@@ -293,7 +293,7 @@
     <string name="downloading">ダウンロード中</string>
     <string name="download" comment="Its a verb">ダウンロード</string>
     <string name="changelog">変更履歴</string>
-    <string name="import_hey_wtf">選択したファイルは、おそらくPano Scrobblerのエクスポートファイルではありません</string>
+    <string name="import_hey_wtf">選択したファイルは、おそらくPano Scrobbler Extendedのエクスポートファイルではありません</string>
     <string name="imported">インポートされました</string>
     <string name="import_options">インポート設定</string>
     <string name="import_lists_nope">訂正内容とブロックリストをインポートしない</string>
@@ -305,7 +305,7 @@
     <string name="lastfm_reauth">Scrobbleを編集または削除するには再認証が必要です</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">%1$s系のインスタンス</string>
     <string name="failed_encode_url">URLのエンコードに失敗しました</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">%1$sを確認</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">%1$sを確認</string>
     <string name="no_browser">ブラウザがインストールされていません</string>
     <string name="no_player">音楽プレーヤーがインストールされていません</string>
     <string name="not_running">⚠ Scrobblerはシステムによってタスクが終了されました</string>
@@ -341,7 +341,7 @@
     <string name="needs_plugin" comment="Used for some desktop media players">一部のアプリにプラグインが必要です</string>
     <string name="reload" comment="Reload or refresh">リロード</string>
     <string name="min_track_duration">この長さより短いトラックはScrobbleしない</string>
-    <string name="automation">自動化アプリからPano Scrobblerを制御する</string>
+    <string name="automation">自動化アプリからPano Scrobbler Extendedを制御する</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">%1$s メタデータの国</string>
     <string name="also_available_on" formatted="true" comment="%1$s is the platform name, like Android, PC">%1$sでこのアプリを入手</string>
     <string name="first_artist">最初のアーティストのみを使用</string>

@@ -109,7 +109,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Сервисы</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Я слушал\n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s слушал\n%1$s %2$s</string>
-    <string name="share_sig">(через Pano Scrobbler)</string>
+    <string name="share_sig">(через Pano Scrobbler Extended)</string>
     <string name="share">Поделиться</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Легенда</string>
     <string name="grid" comment="Grid view">Сетка</string>
@@ -336,7 +336,7 @@
     <string name="downloading">Загрузка</string>
     <string name="download" comment="Its a verb">Скачать</string>
     <string name="changelog">Список изменений</string>
-    <string name="import_hey_wtf">Вероятно, это не файл экспорта Pano Scrobbler</string>
+    <string name="import_hey_wtf">Вероятно, это не файл экспорта Pano Scrobbler Extended</string>
     <string name="imported">Импортирован</string>
     <string name="import_options">Параметры импорта</string>
     <string name="import_lists_nope">Не импортировать правки и черный список</string>
@@ -348,7 +348,7 @@
     <string name="lastfm_reauth">Вам необходимо повторно пройти аутентификацию, чтобы редактировать или удалять скробблы</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">Сервис схожий с %1$s</string>
     <string name="failed_encode_url">Не удалось закодировать URL</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Проверьте %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Проверьте %1$s</string>
     <string name="no_browser">Браузер не установлен</string>
     <string name="no_player">Музыкальный плеер не установлен</string>
     <string name="not_running">⚠ Скробблер был остановлен вашей системой</string>
@@ -390,7 +390,7 @@
     <string name="reload" comment="Reload or refresh">Обновить</string>
     <string name="pref_tray_icon_theme">Тема иконки в трее</string>
     <string name="min_track_duration">Скробблить треки дольше чем</string>
-    <string name="automation">Управление Pano Scrobbler через приложения для автоматизации</string>
+    <string name="automation">Управление Pano Scrobbler Extended через приложения для автоматизации</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">Страна для метаданных %1$s</string>
     <string name="login_in_browser">Завершите вход в окне браузера</string>
     <string name="edit_no_save">Это не будет сохранено для будущих скробблов</string>

@@ -44,6 +44,7 @@ class App : Application(), Configuration.Provider {
 
         VariantStuff.billingRepository = BillingRepository(
             scope = Stuff.appScope,
+            forcePremium = BuildConfig.DEBUG && BuildConfig.SIMULATE_PREMIUM,
             lastCheckTime = flow {
                 val t = withContext(Dispatchers.IO) {
                     lastLicenseCheckTimeFile

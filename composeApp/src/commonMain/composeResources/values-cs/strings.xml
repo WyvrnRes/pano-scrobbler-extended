@@ -109,7 +109,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Služby</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Poslouchal jsem \n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s poslouchal/a \n%1$s %2$s</string>
-    <string name="share_sig">(pomocí Pano Scrobbler)</string>
+    <string name="share_sig">(pomocí Pano Scrobbler Extended)</string>
     <string name="share">Sdílet</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Vysvětlivky</string>
     <string name="grid" comment="Grid view">Mřížká</string>
@@ -334,7 +334,7 @@
     <string name="downloading">Stahuji</string>
     <string name="download" comment="Its a verb">Stáhnout</string>
     <string name="changelog">Seznam změn</string>
-    <string name="import_hey_wtf">To nejspíš není exportovaný soubor Pano Scrobbler</string>
+    <string name="import_hey_wtf">To nejspíš není exportovaný soubor Pano Scrobbler Extended</string>
     <string name="imported">Importováno</string>
     <string name="import_options">Možnosti importu</string>
     <string name="import_lists_nope">Neimportovat úpravy a seznam blokovaných</string>
@@ -346,7 +346,7 @@
     <string name="lastfm_reauth">Pro úpravu nebo smazání scrobblů je třeba se znovu ověřit</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">Instance podobná %1$s</string>
     <string name="failed_encode_url">Kódování URL selhalo</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Zkontrolovat %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Zkontrolovat %1$s</string>
     <string name="no_browser">Není nainstalován žádný prohlížeč</string>
     <string name="no_player">Není nainstalován žádný hudební přehrávač</string>
     <string name="not_running">⚠ Skrobbler byl vypnut vaším systémem</string>
@@ -387,7 +387,7 @@
     <string name="reload" comment="Reload or refresh">Obnovit</string>
     <string name="pref_tray_icon_theme">Motiv ikony v systémové liště</string>
     <string name="min_track_duration">Scrobblovat skladby delší než</string>
-    <string name="automation">Ovládat Pano Scrobbler pomocí aplikací pro automatizaci</string>
+    <string name="automation">Ovládat Pano Scrobbler Extended pomocí aplikací pro automatizaci</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">Země pro metadata z %1$s</string>
     <string name="login_in_browser">Dokončete přihlášení v okně prohlížeče</string>
     <string name="edit_no_save">Toto nastavení nebude uloženo pro budoucí scrobbly</string>

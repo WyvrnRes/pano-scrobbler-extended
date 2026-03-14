@@ -87,7 +87,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Hizmetler</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Bak ne dinliyorum:\n%1$s (%2$s)</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">Bak %3$s ne dinliyor:\n%1$s (%2$s)</string>
-    <string name="share_sig">(Pano Scrobbler tarafından)</string>
+    <string name="share_sig">(Pano Scrobbler Extended tarafından)</string>
     <string name="share">Paylaş</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Göstergeler</string>
     <string name="grid" comment="Grid view">Izgara</string>
@@ -313,7 +313,7 @@
     <string name="downloading">İndiriliyor</string>
     <string name="download" comment="Its a verb">İndir</string>
     <string name="changelog">Değişiklikler</string>
-    <string name="import_hey_wtf">Bu muhtemelen Pano Scrobbler'dan dışa aktarılmış bir dosya değil</string>
+    <string name="import_hey_wtf">Bu muhtemelen Pano Scrobbler Extended'dan dışa aktarılmış bir dosya değil</string>
     <string name="imported">İçe aktarıldı</string>
     <string name="import_options">İçe aktarma seçenekleri</string>
     <string name="import_lists_nope">Düzenlemeleri ve engel listesini içe aktarma</string>
@@ -325,7 +325,7 @@
     <string name="lastfm_reauth">Skropları düzenlemek veya silmek için tekrar kimlik doğrulaması yapmalısınız</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">%1$s-benzeri servis</string>
     <string name="failed_encode_url">URL şifreleme başarısız</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">%1$s uygulamasını kontrol et</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">%1$s uygulamasını kontrol et</string>
     <string name="no_browser">Yüklü tarayıcı yok</string>
     <string name="no_player">Yüklü müzik oynatıcı yok</string>
     <string name="not_running">⚠ Skoplayıcı sisteminiz tarafından sonlandırıldı</string>
@@ -367,7 +367,7 @@
     <string name="reload" comment="Reload or refresh">Yeniden yükle</string>
     <string name="pref_tray_icon_theme">Tepsi simgesi teması</string>
     <string name="min_track_duration">Şundan uzun parçaları skropla</string>
-    <string name="automation">Pano Scrobbler'ı otomasyon uygulamaları üzerinden kontrol edin</string>
+    <string name="automation">Pano Scrobbler Extended'ı otomasyon uygulamaları üzerinden kontrol edin</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">%1$s üst verileri için ülke</string>
     <string name="login_in_browser">Oturum açma işlemini tarayıcı penceresinde tamamlayın</string>
     <string name="edit_no_save">Bu, gelecekteki skroplar için kaydedilmeyecek</string>

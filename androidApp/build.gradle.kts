@@ -58,6 +58,7 @@ android {
         getByName("release") {
             isShrinkResources = true
             isMinifyEnabled = true
+            buildConfigField("boolean", "SIMULATE_PREMIUM", "false")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -66,11 +67,15 @@ android {
 
         getByName("debug") {
             versionNameSuffix = " DEBUG"
+            val simulatePremiumInDebug =
+                localProperties["debug.simulatePremium"]?.toBooleanStrictOrNull() ?: false
+            buildConfigField("boolean", "SIMULATE_PREMIUM", simulatePremiumInDebug.toString())
         }
 
         create("releaseGithub") {
             initWith(getByName("release"))
             versionNameSuffix = " GH"
+            buildConfigField("boolean", "SIMULATE_PREMIUM", "false")
         }
     }
 
@@ -143,13 +148,12 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
-            signingConfig = signingConfigs.findByName("releaseGithub")
-//            signingConfig = signingConfigs.findByName("release")
-        }
 
         getByName("release") {
             signingConfig = signingConfigs.findByName("release")
+        }
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("debug")
         }
 
         getByName("releaseGithub") {

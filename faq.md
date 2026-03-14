@@ -10,8 +10,8 @@ stock ROM from certain manufacturers, due to the said restrictions.
 
 ### [android] The app says that scrobbling is disabled
 
-Check if Pano Scrobbler has the permission to read notifications from other apps. Go to Settings >
-Apps > Special app access > Notification read, reply and control > Pano Scrobbler. The exact
+Check if Pano Scrobbler Extended has the permission to read notifications from other apps. Go to Settings >
+Apps > Special app access > Notification read, reply and control > Pano Scrobbler Extended. The exact
 location and name of the setting will depend on your Android version and manufacturer. Note that
 this is different from the standard "notifications" permission, which has nothing to do with reading
 notifications from other apps.

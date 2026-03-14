@@ -87,7 +87,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">सेवाहरू</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">म \n%1$s %2$s सुन्दै थिएँ</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s ले \n%1$s %2$s सुन्दै थिए</string>
-    <string name="share_sig">(Pano Scrobbler मार्फत)</string>
+    <string name="share_sig">(Pano Scrobbler Extended मार्फत)</string>
     <string name="share">शेयर</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">लेजेण्ड</string>
     <string name="grid" comment="Grid view">ग्रिड</string>

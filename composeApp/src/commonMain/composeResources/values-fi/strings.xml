@@ -87,7 +87,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Palvelut</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Kuuntelin\n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s kuunteli\n%1$s %2$s</string>
-    <string name="share_sig">(Pano Scrobblerin kautta)</string>
+    <string name="share_sig">(Pano Scrobbler Extendedin kautta)</string>
     <string name="share">Jaa</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Selite</string>
     <string name="more_info">Lisätietoa</string>
@@ -274,7 +274,7 @@
     <string name="update_available" formatted="true" comment="%1= the version number">Päivitys saatavilla: %1$s</string>
     <string name="download" comment="Its a verb">Lataa</string>
     <string name="changelog">Muutosloki</string>
-    <string name="import_hey_wtf">Tuo ei luultavasti ole Pano Scrobbler -vientitiedosto</string>
+    <string name="import_hey_wtf">Tuo ei luultavasti ole Pano Scrobbler Extended -vientitiedosto</string>
     <string name="imported">Tuotu</string>
     <string name="import_options">Tuonnin valinnat</string>
     <string name="import_lists_nope">Älä tuo muokkauksia ja estettyjen listaa</string>
@@ -285,7 +285,7 @@
     <string name="copied">Kopioitu!</string>
     <string name="lastfm_reauth">Sinun täytyy tunnistautua uudelleen muokataksesi tai poistaaksesi scrobblauksia</string>
     <string name="failed_encode_url">URL-osoitteen koodaus epäonnistui</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Tarkista %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Tarkista %1$s</string>
     <string name="no_browser">Ei asennettua selainta</string>
     <string name="no_player">Ei asennettua musiikkisoitinta</string>
     <string name="not_running">⚠ Järjestelmäsi tappoi scrobblerin</string>

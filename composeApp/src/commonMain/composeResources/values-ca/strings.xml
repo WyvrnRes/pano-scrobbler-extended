@@ -82,7 +82,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Serveis</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Estava escoltant\n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s estava escoltant\n%1$s %2$s</string>
-    <string name="share_sig">(via Pano Scrobbler)</string>
+    <string name="share_sig">(via Pano Scrobbler Extended)</string>
     <string name="share">Comparteix</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Llegenda</string>
     <string name="grid" comment="Grid view">Graella</string>
@@ -229,13 +229,13 @@
     <string name="update_available" formatted="true" comment="%1= the version number">Actualització disponible: %1$s</string>
     <string name="download" comment="Its a verb">Baixa</string>
     <string name="changelog">Historial de canvis</string>
-    <string name="import_hey_wtf">Segurament no és un fitxer d'exportació de Pano Scrobbler</string>
+    <string name="import_hey_wtf">Segurament no és un fitxer d'exportació de Pano Scrobbler Extended</string>
     <string name="imported">Importat</string>
     <string name="import_options">Opcions d'importació</string>
     <string name="import_lists_nope">No importes les edicions ni la llista de bloqueig</string>
     <string name="import_settings">Importa la configuració</string>
     <string name="copied">S'ha copiat!</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Comprova %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Comprova %1$s</string>
     <string name="no_browser">No hi ha cap navegador instal·lat</string>
     <string name="no_player">No hi ha cap reproductor de música instal·lat</string>
     <string name="not_running">⚠ El sistema ha tancat l'scrobbler</string>

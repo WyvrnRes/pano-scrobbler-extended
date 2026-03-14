@@ -14,6 +14,7 @@ private const val PUBLIC_KEY_BASE64 =
 class BillingRepository(
     scope: CoroutineScope,
     receipt: Flow<Pair<String?, String?>>,
+    forcePremium: Boolean = false,
     private val lastCheckTime: Flow<Long>,
     private val setLastcheckTime: suspend (Long) -> Unit,
     private val setReceipt: suspend (String?, String?) -> Unit,
@@ -22,7 +23,7 @@ class BillingRepository(
     private val deviceIdentifier: () -> String,
     private val openInBrowser: (url: String) -> Unit,
     context: Any?,
-) : BaseBillingRepository(scope, receipt) {
+) : BaseBillingRepository(scope, receipt, forcePremium) {
 
     override val formattedPrice = flowOf("$5")
     override val purchaseMethods = listOf(

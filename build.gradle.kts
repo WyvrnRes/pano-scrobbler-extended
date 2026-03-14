@@ -24,6 +24,6 @@ extra.apply {
     set("VER_CODE", verCode)
     set("VER_NAME", "${verCode / 100}.${verCode % 100}")
     set("APP_ID", "com.arn.scrobble")
-    set("APP_NAME", "Pano Scrobbler")
+    set("APP_NAME", "Pano Scrobbler Extended")
     set("APP_NAME_NO_SPACES", "pano-scrobbler")
 }

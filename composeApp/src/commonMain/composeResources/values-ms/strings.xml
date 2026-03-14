@@ -76,7 +76,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Servis</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Saya telah mendengar\n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s telah mendengar\n%1$s %2$s</string>
-    <string name="share_sig">(melalui Pano Scrobbler)</string>
+    <string name="share_sig">(melalui Pano Scrobbler Extended)</string>
     <string name="share">Kongsi</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Lejen</string>
     <string name="grid" comment="Grid view">Grid</string>
@@ -299,7 +299,7 @@
     <string name="downloading">Memuat turun</string>
     <string name="download" comment="Its a verb">Memuat turun</string>
     <string name="changelog">Tukar log</string>
-    <string name="import_hey_wtf">Itu bukan fail eksport Pano Scrobbler</string>
+    <string name="import_hey_wtf">Itu bukan fail eksport Pano Scrobbler Extended</string>
     <string name="imported">Import</string>
     <string name="import_options">Pilihan import</string>
     <string name="import_lists_nope">Jangan import edit dan senarai blok</string>
@@ -311,7 +311,7 @@
     <string name="lastfm_reauth">Anda perlu disahkan untuk edit atau padam scrobble</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">%1$s-seperti contoh</string>
     <string name="failed_encode_url">Gagal menyalin URL</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Periksa %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Periksa %1$s</string>
     <string name="no_browser">Tiada pelayar</string>
     <string name="no_player">Tiada pemain muzik</string>
     <string name="not_running">⚠ Scrobble dimatikan oleh sistem</string>
@@ -353,7 +353,7 @@
     <string name="reload" comment="Reload or refresh">Memuat semula</string>
     <string name="pref_tray_icon_theme">Tema tray ikon</string>
     <string name="min_track_duration">Scrobble lagu untuk masa lebih dari</string>
-    <string name="automation">Kawal Pano Scrobbler dari aplikasi yang sesuai</string>
+    <string name="automation">Kawal Pano Scrobbler Extended dari aplikasi yang sesuai</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">Negara untuk metadata  %1$s</string>
     <string name="login_in_browser">Lengkapkan log masuk di tingkap pelayar</string>
     <string name="edit_no_save">Ini tak akan disimpan untuk scrobble akan datang</string>

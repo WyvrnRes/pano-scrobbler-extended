@@ -1,4 +1,4 @@
-#define APP_NAME "Pano Scrobbler"
+#define APP_NAME "Pano Scrobbler Extended"
 #define APP_NAME_WITHOUT_SPACES "pano-scrobbler"
 #define DEV_NAME "kawaiiDango"
 #define EXE_NAME "pano-scrobbler.exe"

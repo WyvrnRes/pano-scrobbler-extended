@@ -11,11 +11,11 @@ BLOCK "StringFileInfo"
 	BLOCK "040904b0"
 	{
 		VALUE "CompanyName", "kawaiiDango"
-		VALUE "FileDescription", "Pano Scrobbler"
+		VALUE "FileDescription", "Pano Scrobbler Extended"
 		VALUE "FileVersion", "$versionMajor.$versionMinor"
 		VALUE "LegalCopyright", "(c) kawaiiDango"
 		VALUE "OriginalFilename", "$fileName"
-		VALUE "ProductName", "Pano Scrobbler"
+		VALUE "ProductName", "Pano Scrobbler Extended"
 		VALUE "ProductVersion", "$versionMajor.$versionMinor"
 	}
 }

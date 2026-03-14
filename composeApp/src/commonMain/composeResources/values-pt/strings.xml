@@ -91,7 +91,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Serviços</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Estava a ouvir \n%1$s, a %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s estava a ouvir \n%1$s, a %2$s</string>
-    <string name="share_sig">(via Pano Scrobbler)</string>
+    <string name="share_sig">(via Pano Scrobbler Extended)</string>
     <string name="share">Partilhar</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Legenda</string>
     <string name="grid" comment="Grid view">Grelha</string>
@@ -319,7 +319,7 @@
     <string name="downloading">A transferir</string>
     <string name="download" comment="Its a verb">Transferir</string>
     <string name="changelog">Alterações</string>
-    <string name="import_hey_wtf">Provavelmente, este não é um ficheiro de exportação do Pano Scrobbler</string>
+    <string name="import_hey_wtf">Provavelmente, este não é um ficheiro de exportação do Pano Scrobbler Extended</string>
     <string name="imported">Importado</string>
     <string name="import_options">Opções de importação</string>
     <string name="import_lists_nope">Não importar edições e lista de bloqueio</string>
@@ -331,7 +331,7 @@
     <string name="lastfm_reauth">Precisa de reiniciar sessão para editar ou apagar scrobbles</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">Instância semelhante a %1$s</string>
     <string name="failed_encode_url">Falha na codificação de URL</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Selecione %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Selecione %1$s</string>
     <string name="no_browser">Nenhum navegador instalado</string>
     <string name="no_player">Nenhum reprodutor de música instalado</string>
     <string name="not_running">⚠ Scrobbler terminado abruptamente pelo seu sistema</string>
@@ -373,7 +373,7 @@
     <string name="reload" comment="Reload or refresh">Atualizar</string>
     <string name="pref_tray_icon_theme">Tema de ícone da bandeja</string>
     <string name="min_track_duration">Scrobble de faixas com maior duração que</string>
-    <string name="automation">Controlar Pano Scrobbler em apps de automação</string>
+    <string name="automation">Controlar Pano Scrobbler Extended em apps de automação</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">País para metadados de %1$s</string>
     <string name="login_in_browser">Conclua o início de sessão na janela do navegador</string>
     <string name="edit_no_save">A edição não será guardada para futuros scrobbles</string>

@@ -1,4 +1,4 @@
-## <img src="composeApp/src/desktopMain/composeResources/drawable/ic_launcher_with_bg.svg" alt="app icon" width="32"/> Pano Scrobbler
+## <img src="composeApp/src/desktopMain/composeResources/drawable/ic_launcher_with_bg.svg" alt="app icon" width="32"/> Pano Scrobbler Extended
 
 [\[repository\]](https://github.com/kawaiiDango/pano-scrobbler)
 
@@ -82,7 +82,7 @@ Installing the non-Play version from the F-Droid compatible repo, IzzyOnDroid or
 - Collage generator
 - Add or remove personal tags from the info screen
 - Edit or delete existing scrobbles. Remembers edits
-- Control Pano Scrobbler from automation apps on Android or command-line on desktop
+- Control Pano Scrobbler Extended from automation apps on Android or command-line on desktop
 
 #### Android only (except TV):
 - Scrobble from music recognition apps
@@ -111,4 +111,4 @@ This project is not affiliated with Last.fm, Libre.fm, ListenBrainz or any other
 
 SPDX-License-Identifier: GPL-3.0-or-later
 
-Pano Scrobbler is licensed under the [GNU General Public License v3 or later](http://www.gnu.org/copyleft/gpl.html).
+Pano Scrobbler Extended is licensed under the [GNU General Public License v3 or later](http://www.gnu.org/copyleft/gpl.html).

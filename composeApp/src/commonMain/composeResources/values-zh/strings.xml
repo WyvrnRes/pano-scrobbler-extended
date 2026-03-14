@@ -76,7 +76,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">服务</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">我最近在听 \n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s 最近在听 \n%1$s %2$s</string>
-    <string name="share_sig">（发送自 Pano Scrobbler）</string>
+    <string name="share_sig">（发送自 Pano Scrobbler Extended）</string>
     <string name="share">分享</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">图注</string>
     <string name="grid" comment="Grid view">网格</string>
@@ -303,7 +303,7 @@
     <string name="downloading">下载中</string>
     <string name="download" comment="Its a verb">下载</string>
     <string name="changelog">更新日志</string>
-    <string name="import_hey_wtf">此文件可能不是由 Pano Scrobbler 所导出</string>
+    <string name="import_hey_wtf">此文件可能不是由 Pano Scrobbler Extended 所导出</string>
     <string name="imported">已导入</string>
     <string name="import_options">导入选项</string>
     <string name="import_lists_nope">不要导入编辑模板和屏蔽列表</string>
@@ -315,7 +315,7 @@
     <string name="lastfm_reauth">您需要重新进行身份认证才能编辑或删除音乐记录</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">%1$s类实例</string>
     <string name="failed_encode_url">无法对 URL 进行编码</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">勾选 %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">勾选 %1$s</string>
     <string name="no_browser">未安装浏览器</string>
     <string name="no_player">未安装音乐播放器</string>
     <string name="not_running">⚠ 您的系统终止了记录器运行</string>
@@ -357,7 +357,7 @@
     <string name="reload" comment="Reload or refresh">重载</string>
     <string name="pref_tray_icon_theme">托盘图标主题</string>
     <string name="min_track_duration">滚动曲目时间超过</string>
-    <string name="automation">从自动化应用控制Pano Scrobbler</string>
+    <string name="automation">从自动化应用控制Pano Scrobbler Extended</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">%1$s 元数据区域</string>
     <string name="login_in_browser">在浏览器窗口完成登录</string>
     <string name="edit_no_save">这将不会保存到将来的抓取中</string>

@@ -109,7 +109,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Сервіси</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Я слухав \n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s слухав \n%1$s %2$s</string>
-    <string name="share_sig">(через Pano Scrobbler)</string>
+    <string name="share_sig">(через Pano Scrobbler Extended)</string>
     <string name="share">Поширити</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Умовні позначення</string>
     <string name="grid" comment="Grid view">Сітка</string>
@@ -331,7 +331,7 @@
     <string name="downloading">Завантаження</string>
     <string name="download" comment="Its a verb">Завантажити</string>
     <string name="changelog">Журнал змін</string>
-    <string name="import_hey_wtf">Напевно, це не експорт файлу Pano Scrobbler</string>
+    <string name="import_hey_wtf">Напевно, це не експорт файлу Pano Scrobbler Extended</string>
     <string name="imported">Імпортовано</string>
     <string name="import_options">Налаштування імпорту</string>
     <string name="import_lists_nope">Не імпортувати зміни і блокуючий список</string>
@@ -343,7 +343,7 @@
     <string name="lastfm_reauth">Вам потрібно перезапустити автентифікацію для редагування або видалення скробблів</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">%1$s-подібний сервіс</string>
     <string name="failed_encode_url">Не вдалося застосувати URL</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Перевірити %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Перевірити %1$s</string>
     <string name="no_browser">Браузер не встановлено</string>
     <string name="no_player">Не встановлено жодного музичного плеєра</string>
     <string name="not_running">⚠ Скроблер був вбитий вашою системою</string>
@@ -383,7 +383,7 @@
     <string name="low" comment="As in high/medium/low">Низький</string>
     <string name="needs_plugin" comment="Used for some desktop media players">Деякі застосунки потребують плагінів</string>
     <string name="reload" comment="Reload or refresh">Оновити</string>
-    <string name="automation">Управління Pano Scrobbler через застосунки для автоматизації</string>
+    <string name="automation">Управління Pano Scrobbler Extended через застосунки для автоматизації</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">Країна для метаданих %1$s</string>
     <string name="login_in_browser">Завершіть вхід у вікні браузера</string>
     <string name="edit_no_save">Це не буде збережено для майбутніх скроблів</string>

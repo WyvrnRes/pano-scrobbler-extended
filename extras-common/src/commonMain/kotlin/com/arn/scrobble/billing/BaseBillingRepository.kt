@@ -13,7 +13,8 @@ import kotlinx.coroutines.withContext
 
 abstract class BaseBillingRepository(
     protected val scope: CoroutineScope,
-    protected val receipt: Flow<Pair<String?, String?>>
+    protected val receipt: Flow<Pair<String?, String?>>, // Pair<receipt, signature>
+    protected val forcePremium: Boolean = false
 ) {
     protected val checkEveryDays = 30
     protected val productId = "pscrobbler_pro"
@@ -24,6 +25,9 @@ abstract class BaseBillingRepository(
     abstract val needsActivationCode: Boolean
     val licenseState = receipt
         .map { (receipt, signature) ->
+            if (forcePremium)
+                return@map LicenseState.VALID
+
             withContext(Dispatchers.IO) {
                 if (receipt == null) {
                     LicenseState.NO_LICENSE

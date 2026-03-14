@@ -1,4 +1,4 @@
-!define APP_NAME "Pano Scrobbler"
+!define APP_NAME "Pano Scrobbler Extended"
 !define DEV_NAME "kawaiiDango"
 !define UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
 !define EXE_NAME "pano-scrobbler.exe"

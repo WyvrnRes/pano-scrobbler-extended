@@ -87,7 +87,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Dienste</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Ich habe\n%1$s %2$s gehört</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s hörte\n%1$s %2$s an</string>
-    <string name="share_sig">(via Pano Scrobbler)</string>
+    <string name="share_sig">(via Pano Scrobbler Extended)</string>
     <string name="share">Teilen</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Legende</string>
     <string name="grid" comment="Grid view">Raster</string>
@@ -313,7 +313,7 @@
     <string name="downloading">Lade Herunter</string>
     <string name="download" comment="Its a verb">Download</string>
     <string name="changelog">Changelog</string>
-    <string name="import_hey_wtf">Es handelt sich hierbei wahrscheinlich nicht um eine Pano Scrobbler Exportdatei</string>
+    <string name="import_hey_wtf">Es handelt sich hierbei wahrscheinlich nicht um eine Pano Scrobbler Extended Exportdatei</string>
     <string name="imported">Importiert</string>
     <string name="import_options">Import Einstellungen</string>
     <string name="import_lists_nope">Keine Änderungen und Sperrlisten importieren</string>
@@ -325,7 +325,7 @@
     <string name="lastfm_reauth">Du musst dich neu authentifizieren, um Scrobbles bearbeiten oder löschen zu können</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">%1$s-artige Instanz</string>
     <string name="failed_encode_url">Fehler beim Kodieren der URL</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">%1$s überprüfen</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">%1$s überprüfen</string>
     <string name="no_browser">Kein Browser installiert</string>
     <string name="no_player">Kein Musikplayer installiert</string>
     <string name="not_running">⚠ Der Scrobbler wurde von deinem System gestoppt</string>
@@ -367,7 +367,7 @@
     <string name="reload" comment="Reload or refresh">Neu laden</string>
     <string name="pref_tray_icon_theme">Tray-Symbol-Design</string>
     <string name="min_track_duration">Titel scrobbeln, die länger sind als</string>
-    <string name="automation">Pano Scrobbler durch Automatisierungs-Apps steuern</string>
+    <string name="automation">Pano Scrobbler Extended durch Automatisierungs-Apps steuern</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">Land für %1$s Metadaten</string>
     <string name="login_in_browser">Beenden sie die Anmeldung im Browserfenster</string>
     <string name="edit_no_save">Dies wird nicht für zukünftige scrobbles gespeichert </string>

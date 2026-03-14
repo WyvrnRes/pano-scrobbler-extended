@@ -269,7 +269,7 @@
     <string name="update_available" formatted="true" comment="%1= the version number">Update beschikbaar: %1$s</string>
     <string name="download" comment="Its a verb">Downloaden</string>
     <string name="changelog">Lijst met veranderingen</string>
-    <string name="import_hey_wtf">Dat is waarschijnlijk geen Pano Scrobbler exportbestand</string>
+    <string name="import_hey_wtf">Dat is waarschijnlijk geen Pano Scrobbler Extended exportbestand</string>
     <string name="imported">Geïmporteerd</string>
     <string name="import_options">Importeeropties</string>
     <string name="import_lists_nope">Bewerkingen en blokkeerlijst niet importeren</string>
@@ -280,7 +280,7 @@
     <string name="copied">Gekopieerd!</string>
     <string name="lastfm_reauth">U moet zich opnieuw verifiëren om scrobbles te bewerken of te verwijderen</string>
     <string name="failed_encode_url">Kan URL niet coderen</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Controleer %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Controleer %1$s</string>
     <string name="no_browser">Er is geen browser geïnstalleerd</string>
     <string name="no_player">Er is geen muziekspeler geïnstalleerd</string>
     <string name="not_running">⚠ De scrobbler is gesloten door uw systeem</string>

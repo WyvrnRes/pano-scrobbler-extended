@@ -125,7 +125,7 @@
     <string name="recents_share_username" formatted="true"
         comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username"
         >%3$s was listening to\n%1$s %2$s</string>
-    <string name="share_sig">(via Pano Scrobbler)</string>
+    <string name="share_sig">(via Pano Scrobbler Extended)</string>
     <string name="share">Share</string>
     <string name="legend"
         comment="Chart legend - descriptions of the symbols used"
@@ -590,7 +590,7 @@
         >Download</string>
     <string name="changelog">Changelog</string>
 
-    <string name="import_hey_wtf">That's probably not a Pano Scrobbler export file</string>
+    <string name="import_hey_wtf">That's probably not a Pano Scrobbler Extended export file</string>
     <string name="imported">Imported</string>
     <string name="import_options">Import options</string>
     <string name="import_lists_nope">Do not import edits and blocklist</string>
@@ -606,7 +606,7 @@
         >%1$s-like instance</string>
     <string name="failed_encode_url">Failed to encode URL</string>
     <string name="check_nls" formatted="true"
-        comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings"
+        comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings"
         >Check %1$s</string>
     <string name="no_browser">No browser is installed</string>
     <string name="no_player">No music player is installed</string>
@@ -674,7 +674,7 @@
         >Reload</string>
     <string name="pref_tray_icon_theme">Tray icon theme</string>
     <string name="min_track_duration">Scrobble tracks longer than</string>
-    <string name="automation">Control Pano Scrobbler from automation apps</string>
+    <string name="automation">Control Pano Scrobbler Extended from automation apps</string>
     <string name="country_for_api" formatted="true"
         comment="%1$s is the name of the streaming service, like Spotify, Apple Music"
         >Country for %1$s metadata</string>

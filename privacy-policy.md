@@ -6,7 +6,7 @@
 
 ### Introduction
 
-kawaiiDango built the Pano Scrobbler app as a Free and Open Source app licensed under GPLv3 or
+kawaiiDango built the Pano Scrobbler Extended app as a Free and Open Source app licensed under GPLv3 or
 later. This app is provided by kawaiiDango at no cost and is intended for use as is, without any
 warranty or fitness for a particular purpose. One may freely obtain its complete source code at:
 [github.com/kawaiiDango/pano-scrobbler](https://github.com/kawaiiDango/pano-scrobbler)

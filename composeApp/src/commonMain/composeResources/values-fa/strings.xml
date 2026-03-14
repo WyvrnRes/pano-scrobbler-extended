@@ -312,7 +312,7 @@
     <string name="lastfm_reauth">برای ویرایش یا حذف اسکرابل‌ها، باید مجددا احراز هویت بشید</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">نمونه شبه %1$s</string>
     <string name="failed_encode_url">رمزگذاری URL انجام نشد</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">چک کردن %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">چک کردن %1$s</string>
     <string name="no_browser">مرورگری نصب نشده</string>
     <string name="no_player">پخش‌کننده آهنگی نصب نشده</string>
     <string name="not_running">⚠ این برنامه توسط سیستم قطع شد</string>

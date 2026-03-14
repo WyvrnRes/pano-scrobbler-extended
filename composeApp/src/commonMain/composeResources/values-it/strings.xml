@@ -87,7 +87,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Servizi</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Stavo ascoltando\n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s stava ascoltando\n%1$s %2$s</string>
-    <string name="share_sig">(tramite Pano Scrobbler)</string>
+    <string name="share_sig">(tramite Pano Scrobbler Extended)</string>
     <string name="share">Condividi</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Legenda</string>
     <string name="grid" comment="Grid view">Griglia</string>
@@ -313,7 +313,7 @@
     <string name="downloading">Scaricamento</string>
     <string name="download" comment="Its a verb">Scarica</string>
     <string name="changelog">Registro modifiche</string>
-    <string name="import_hey_wtf">Probabilmente quello non è un file esportato da Pano Scrobbler</string>
+    <string name="import_hey_wtf">Probabilmente quello non è un file esportato da Pano Scrobbler Extended</string>
     <string name="imported">Importato</string>
     <string name="import_options">Opzioni d’importazione</string>
     <string name="import_lists_nope">Non importare modifiche e lista bloccati</string>
@@ -324,7 +324,7 @@
     <string name="copied">Copiato!</string>
     <string name="lastfm_reauth">Devi accedere di nuovo per modificare o eliminare gli scrobbling</string>
     <string name="failed_encode_url">Codificazione dell'URL fallita</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Seleziona %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Seleziona %1$s</string>
     <string name="no_browser">Nessun browser installato</string>
     <string name="no_player">Nessun lettore musicale installato</string>
     <string name="not_running">⚠ Il tuo Sistema ha ucciso lo scrobbler</string>
@@ -366,7 +366,7 @@
     <string name="reload" comment="Reload or refresh">Ricarica</string>
     <string name="pref_tray_icon_theme">Tema barra icone</string>
     <string name="min_track_duration">Effettua scrobble di tracce più lunghe di</string>
-    <string name="automation">Controlla Pano Scrobbler dalle app di automazione</string>
+    <string name="automation">Controlla Pano Scrobbler Extended dalle app di automazione</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">Paese per i metadata di %1$s</string>
     <string name="login_in_browser">Completa il login nella finestra del browser</string>
     <string name="edit_no_save">Questo non sarà salvato per gli scrobble futuri</string>

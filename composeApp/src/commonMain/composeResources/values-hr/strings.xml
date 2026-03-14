@@ -98,7 +98,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Servisi</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Slušao/la sam\n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">%3$s je slušao/la\n%1$s %2$s</string>
-    <string name="share_sig">(pomoću aplikacije Pano Scrobbler)</string>
+    <string name="share_sig">(pomoću aplikacije Pano Scrobbler Extended)</string>
     <string name="share">Podijeli</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Legenda</string>
     <string name="grid" comment="Grid view">Mreža</string>
@@ -325,7 +325,7 @@
     <string name="downloading">Preuzimanje u tijeku</string>
     <string name="download" comment="Its a verb">Preuzimanje</string>
     <string name="changelog">Popis promjena</string>
-    <string name="import_hey_wtf">Ovo vjerojatno nije datoteka izvoza iz Pano Scrobblera</string>
+    <string name="import_hey_wtf">Ovo vjerojatno nije datoteka izvoza iz Pano Scrobbler Extendeda</string>
     <string name="imported">Uvezeno</string>
     <string name="import_options">Opcije uvoza</string>
     <string name="import_lists_nope">Nemoj uvesti uređivanja i popise blokiranja</string>
@@ -337,7 +337,7 @@
     <string name="lastfm_reauth">Morate se ponovno autentificirati za uređivanje ili brisanje scrobbleova</string>
     <string name="like_instance" comment="%1= the scrobbling service name, such as last.fm, ListenBrainz">Instanca slična servisu %1$s</string>
     <string name="failed_encode_url">Kodiranje URL-a nije uspjelo</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Provjeri %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Provjeri %1$s</string>
     <string name="no_browser">Nema instaliranih preglednika</string>
     <string name="no_player">Nema instaliranih reproduktora glazbe</string>
     <string name="not_running">⚠ Vaš sustav je zaustavio pokretanje scrobblera</string>
@@ -379,7 +379,7 @@
     <string name="reload" comment="Reload or refresh">Osvježi</string>
     <string name="pref_tray_icon_theme">Tema ikone u traci sustava</string>
     <string name="min_track_duration">Scrobblaj pjesme duže od</string>
-    <string name="automation">Upravljajte Pano Scrobblerom iz aplikacija za automatizaciju</string>
+    <string name="automation">Upravljajte Pano Scrobbler Extendedom iz aplikacija za automatizaciju</string>
     <string name="country_for_api" formatted="true" comment="%1$s is the name of the streaming service, like Spotify, Apple Music">Država relevantna za metapodatke iz servisa %1$s</string>
     <string name="login_in_browser">Dovrši prijavu u prozoru internetskog preglednika</string>
     <string name="edit_no_save">Ovo se neće spremiti za buduće scrobblove</string>

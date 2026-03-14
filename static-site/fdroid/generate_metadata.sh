@@ -14,7 +14,7 @@ AuthorName: 'kawaiiDango'
 Categories:
   - Multimedia
 IssueTracker: 'https://github.com/kawaiiDango/pano-scrobbler/issues'
-Name: Pano Scrobbler
+Name: Pano Scrobbler Extended
 SourceCode: https://github.com/kawaiiDango/pano-scrobbler
 Summary: 'Feature packed cross-platform music tracker for Last.fm, ListenBrainz, Libre.fm, Pleroma and other compatible services'
 Description: |

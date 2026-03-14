@@ -82,7 +82,7 @@
     <string name="scrobble_services" comment="Services like lastfm, librefm, listenbrainz etc">Υπηρεσίες</string>
     <string name="recents_share" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9)">Άκουσα\n%1$s %2$s</string>
     <string name="recents_share_username" formatted="true" comment="%1= artist — track, %2= relative time (with preposition e.g. on Sep 9), %3= username">Ο %3$s άκουγε\n%1$s %2$s</string>
-    <string name="share_sig">(μέσω Pano Scrobbler)</string>
+    <string name="share_sig">(μέσω Pano Scrobbler Extended)</string>
     <string name="share">Κοινοποίηση</string>
     <string name="legend" comment="Chart legend - descriptions of the symbols used">Υπόμνημα</string>
     <string name="grid" comment="Grid view">Πλέγμα</string>
@@ -272,7 +272,7 @@
     <string name="update_available" formatted="true" comment="%1= the version number">Διαθέσιμη ενημέρωση: %1$s</string>
     <string name="download" comment="Its a verb">Λήψη</string>
     <string name="changelog">Αρχείο αλλαγών</string>
-    <string name="import_hey_wtf">Αυτό πιθανώς δεν είναι αρχείο εξαγωγής Pano Scrobbler</string>
+    <string name="import_hey_wtf">Αυτό πιθανώς δεν είναι αρχείο εξαγωγής Pano Scrobbler Extended</string>
     <string name="imported">Εισαγόμενο</string>
     <string name="import_options">Επιλογές εισαγωγής</string>
     <string name="import_lists_nope">Να μην εισαχθούν επεξεργασίες και blocklist</string>
@@ -283,7 +283,7 @@
     <string name="copied">Αντιγράφηκε!</string>
     <string name="lastfm_reauth">Πρέπει να επαληθεύσετε ξανά τον έλεγχο ταυτότητας για να επεξεργαστείτε ή να διαγράψετε scrobbles</string>
     <string name="failed_encode_url">Αποτυχία κωδικοποίησης URL</string>
-    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler. Asks the user to check the app in notification access settings">Έλεγχος %1$s</string>
+    <string name="check_nls" formatted="true" comment="%1= the name Pano Scrobbler Extended. Asks the user to check the app in notification access settings">Έλεγχος %1$s</string>
     <string name="no_browser">Δεν υπάρχει εγκατεστημένος φυλλομετρητής</string>
     <string name="no_player">Δεν υπάρχει εγκατεστημένη εφαρμογή αναπαραγωγής μουσικής</string>
     <string name="not_running">⚠ Το scrobbler σκοτώθηκε από το σύστημά σας</string>
