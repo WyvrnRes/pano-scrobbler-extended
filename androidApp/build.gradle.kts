@@ -32,15 +32,19 @@ val localProperties = gradleLocalProperties(rootDir, project.providers)
     .toMap()
 
 android {
-    compileSdk = libs.versions.targetSdk.get().toInt()
-//    compileSdkPreview = "CinnamonBun"
+    buildToolsVersion = "37.0.0"
+    
+    compileSdk {
+        version = release(libs.versions.targetSdk.get().toInt()) {
+            minorApiLevel = libs.versions.sdkMinor.get().toInt()
+        }
+    }
 
     defaultConfig {
         applicationId = APP_ID
         namespace = APP_ID + ".androidApp"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-//        targetSdkPreview = "CinnamonBun"
         versionCode = VER_CODE
         versionName = VER_NAME
         base.archivesName = APP_NAME_NO_SPACES
@@ -49,7 +53,6 @@ android {
 
     buildFeatures {
         aidl = false
-        buildConfig = true
         resValues = false
         shaders = false
     }
@@ -164,16 +167,7 @@ android {
 
 dependencies {
     implementation(projects.composeApp)
-    implementation(libs.work.runtime)
-    implementation(projects.extrasCommon)
-
-
 //        "baselineProfile"(project(mapOf("path" to ":baselineprofile")))
-
-    releaseImplementation(projects.extrasPlay)
-//    debugImplementation(projects.extrasNonplay)
-    debugImplementation(projects.extrasPlay)
-    "releaseGithubImplementation"(projects.extrasNonplay)
 
     androidTestImplementation(libs.test.uiautomator)
     androidTestImplementation(libs.test.runner)

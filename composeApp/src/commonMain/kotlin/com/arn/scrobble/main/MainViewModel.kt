@@ -21,9 +21,12 @@ import com.arn.scrobble.work.CommonWorkState
 import com.arn.scrobble.work.DigestWork
 import com.arn.scrobble.work.DigestWorker
 import com.arn.scrobble.work.PendingScrobblesWork
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -45,8 +48,6 @@ class MainViewModel : ViewModel() {
     private val _selectedPackages = MutableSharedFlow<Pair<List<AppItem>, List<AppItem>>>()
     val selectedPackages = _selectedPackages.asSharedFlow()
 
-    var pendingSubmitAttempted = false
-
     val isItChristmas by lazy {
         val cal = Calendar.getInstance()
         BuildKonfig.DEBUG ||
@@ -55,6 +56,9 @@ class MainViewModel : ViewModel() {
     }
 
     val editScrobbleUtils = EditScrobbleUtils(viewModelScope)
+
+    private val _scrobblerStateFlow = MutableStateFlow<ScrobblerState>(ScrobblerState.Unknown)
+    val scrobblerStateFlow = _scrobblerStateFlow.asStateFlow()
 
     init {
         Stuff.globalExceptionFlow.map { e ->
@@ -106,6 +110,24 @@ class MainViewModel : ViewModel() {
                 PendingScrobblesWork.schedule(force)
             }
         }
+
+        updateScrobblerServiceState(true)
+    }
+
+    fun updateScrobblerServiceState(requestRebind: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(100)
+            val state = PlatformStuff.checkScrobblerState(requestRebind)
+            _scrobblerStateFlow.value = state
+
+            if (!killedReasonReported && requestRebind &&
+                state is ScrobblerState.Killed && state.reason?.isProbablySystemKill == true
+            ) {
+                killedReasonReported = true
+                val message = state.reason.formatted()
+                Logger.e(AppExitException(message)) { message }
+            }
+        }
     }
 
     fun checkAndStoreLicense(receipt: String) {
@@ -147,4 +169,10 @@ class MainViewModel : ViewModel() {
         _pullToRefreshTriggered
             .filter { it == id }
             .map { }
+
+    private class AppExitException(override val message: String) : RuntimeException()
+
+    companion object {
+        private var killedReasonReported = false
+    }
 }
