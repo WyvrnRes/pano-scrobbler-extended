@@ -90,6 +90,7 @@ For distributables or installers, see `instructions.md`.
 - Search Lastfm for a songs, artists, or albums
 - Themes
 - Remember and see apps you scrobbled from and play directly in them
+- Proxy support
 
 #### For desktop and Android (except TV):
 - Scrobble to a CSV or JSONL file locally
@@ -101,7 +102,7 @@ For distributables or installers, see `instructions.md`.
 - Control Pano Scrobbler Extended from automation apps on Android or command-line on desktop
 
 #### Android only (except TV):
-- Scrobble from music recognition apps
+- Scrobble from music recognition apps: Shazam, Ambient Music Mod and Audile
 - Charts as a customizable home-screen widget
 - Get your top scrobbles digests as a notification at the end of every week, month and year
 

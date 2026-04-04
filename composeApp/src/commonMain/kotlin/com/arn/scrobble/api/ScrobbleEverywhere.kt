@@ -10,14 +10,10 @@ import com.arn.scrobble.api.lastfm.Track
 import com.arn.scrobble.api.steelseries.SteelSeriesReceiverServer
 import com.arn.scrobble.db.BlockPlayerAction
 import com.arn.scrobble.db.BlockedMetadataDao.Companion.getBlockedEntry
-import com.arn.scrobble.db.CachedTrack
-import com.arn.scrobble.db.CachedTrack.Companion.toCachedTrack
-import com.arn.scrobble.db.CachedTracksDao
-import com.arn.scrobble.db.DirtyUpdate
 import com.arn.scrobble.db.PanoDb
-import com.arn.scrobble.db.PendingScrobble
 import com.arn.scrobble.db.RegexEditsDao
 import com.arn.scrobble.db.ScrobbleSource
+import com.arn.scrobble.db.SeenTrackAlbumAssociation
 import com.arn.scrobble.db.SimpleEditsDao.Companion.findAndPerformEdit
 import com.arn.scrobble.edits.RegexPreset
 import com.arn.scrobble.edits.RegexPresets
@@ -28,7 +24,6 @@ import com.arn.scrobble.utils.FirstArtistExtractor
 import com.arn.scrobble.utils.PlatformStuff
 import com.arn.scrobble.utils.Stuff
 import com.arn.scrobble.utils.Stuff.mapConcurrently
-import com.arn.scrobble.utils.redactedMessage
 import com.arn.scrobble.work.PendingScrobblesWork
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -42,7 +37,6 @@ data class PreprocessResult(
     val titleParseFailed: Boolean = false,
     val blockPlayerAction: BlockPlayerAction? = null,
     val userLoved: Boolean = false,
-    val userPlayCount: Int = 0,
 )
 
 data class AdditionalMetadataResult(
@@ -59,10 +53,8 @@ data class AdditionalMetadataResult(
 }
 
 object ScrobbleEverywhere {
-
-    val deezerTracksCache = LruCache<String, DeezerTrack>(50)
-    val lastfmTracksCache = LruCache<String, Track>(50)
-    val lastfmAlbumsCache = LruCache<String, Album>(50)
+    private val deezerTracksCache = LruCache<String, DeezerTrack>(50)
+    private val lastfmAlbumsCache = LruCache<String, Album>(50)
     private var artistWithDelimitersMaxId: Int? = null
 
     private suspend fun performEditsAndBlocks(
@@ -204,20 +196,15 @@ object ScrobbleEverywhere {
                 preprocessResult
             }
 
-        val cachedTrack: CachedTrack? =
-            if (PlatformStuff.mainPrefs.data.map { it.lastMaxIndexTime }.first() != null)
-                PanoDb.db.getCachedTracksDao()
-                    .findExact(
-                        preprocessResult2.scrobbleData.artist,
-                        preprocessResult2.scrobbleData.track
-                    )
-            else
-                null
+        val seenTrack = PanoDb.db.getSeenEntitiesDao()
+            .getTrackWithLovedState(
+                preprocessResult2.scrobbleData.artist,
+                preprocessResult2.scrobbleData.track
+            )
 
-        return if (cachedTrack != null)
+        return if (seenTrack != null)
             preprocessResult2.copy(
-                userPlayCount = cachedTrack.plays,
-                userLoved = cachedTrack.isLoved
+                userLoved = seenTrack.isLoved == true
             )
         else
             preprocessResult2
@@ -229,7 +216,7 @@ object ScrobbleEverywhere {
         fetchArtUrlOnly: Boolean = false
     ): AdditionalMetadataResult {
         val fetchMissingMetadataDeezer = PlatformStuff.mainPrefs.data.map { it.deezerApi }.first()
-//        val fetchMissingMetadataLastfm = PlatformStuff.mainPrefs.data.map { it.fetchAlbum }.first()
+        val guessAlbum = PlatformStuff.mainPrefs.data.map { it.fetchAlbum }.first()
         val tidalSteelSeries = PlatformStuff.mainPrefs.data.map { it.tidalSteelSeriesApi }.first()
 
         try {
@@ -297,9 +284,25 @@ object ScrobbleEverywhere {
                     return SteelSeriesReceiverServer.getAdditionalData(scrobbleData)
                 }
 
-//                fetchMissingMetadataLastfm && scrobbleData.album.isNullOrEmpty() -> {
-//                    return fetchLastfmTrack(scrobbleData, onNetworkRequestMade)
-//                }
+                guessAlbum && scrobbleData.album.isNullOrEmpty() -> {
+                    val album = PanoDb.db.getSeenEntitiesDao().getBestAlbumForTrack(
+                        scrobbleData.artist,
+                        scrobbleData.track
+                    )
+
+                    if (album != null) {
+                        val sd = scrobbleData.copy(
+                            album = album.album,
+                        )
+
+                        return AdditionalMetadataResult(
+                            scrobbleData = sd,
+                            artUrl = album.artUrl,
+                        )
+                    }
+
+                    return fetchLastfmTrack(scrobbleData, onNetworkRequestMade)
+                }
             }
         } catch (e: ScrobbleQueue.NetworkRequestNeededException) {
             Logger.d { "Network request needed to fetch additional metadata" }
@@ -333,6 +336,8 @@ object ScrobbleEverywhere {
             it to it.scrobble(scrobbleData)
         }.toMap()
 
+        val pendingScrobblesDao = PanoDb.db.getPendingScrobblesDao()
+
         if (scrobbleResults.isEmpty() ||
             scrobbleResults.values.any { !it.isSuccess }
         ) {
@@ -346,33 +351,25 @@ object ScrobbleEverywhere {
                         if (!result.isSuccess) scrobblable.userAccount.type else null
                     }
 
-            val dao = PanoDb.db.getPendingScrobblesDao()
-            val entry = PendingScrobble(
-                scrobbleData = scrobbleData,
-                event = ScrobbleEvent.scrobble,
-                services = services.toSet(),
-                lastFailedTimestamp = System.currentTimeMillis(),
-                lastFailedReason = scrobbleResults.values.firstOrNull { it.isFailure }
-                    ?.exceptionOrNull()?.redactedMessage?.take(100)
-            )
 
-            dao.insert(entry)
+            val exceptions = scrobbleResults.values.mapNotNull { it.exceptionOrNull() }
+
+            pendingScrobblesDao.insert(scrobbleData, ScrobbleEvent.scrobble, services, exceptions)
             PendingScrobblesWork.schedule(false)
         } else {
-            // successful
+            // all success
+            if (pendingScrobblesDao.canForceRetry())
+                PendingScrobblesWork.schedule(true)
+        }
 
-            val album = scrobbleData.album?.let {
-                Album(it, Artist(scrobbleData.albumArtist ?: scrobbleData.artist))
-            }
-            CachedTracksDao.deltaUpdateAll(
-                Track(
-                    scrobbleData.track,
-                    album,
-                    Artist(scrobbleData.artist),
-                    date = scrobbleData.timestamp
-                ),
-                1,
-                DirtyUpdate.DIRTY
+        // if it has album, update cache
+
+        if (!scrobbleData.album.isNullOrEmpty()) {
+            PanoDb.db.getSeenEntitiesDao().saveRecentTracks(
+                listOf(scrobbleData.toTrack()),
+                mayHaveAlbumArt = false,
+                savedLoved = false,
+                priority = SeenTrackAlbumAssociation.Priority.MEDIA_PLAYER
             )
         }
     }
@@ -383,11 +380,12 @@ object ScrobbleEverywhere {
 
 
         // update the cache
-        PanoDb.db.getCachedTracksDao().apply {
-            val tr = findExact(track.artist.name, track.name) ?: track.toCachedTrack()
-            val newTr = tr.copy(isLoved = love)
-            insert(listOf(newTr))
-        }
+        PanoDb.db.getSeenEntitiesDao()
+            .saveLovedTracks(
+                listOf(
+                    track.copy(userloved = love)
+                )
+            )
 
         val dao = PanoDb.db.getPendingScrobblesDao()
         val pl = dao.findLoved(track.artist.name, track.name)
@@ -421,17 +419,10 @@ object ScrobbleEverywhere {
                     appId = null
                 )
 
-                val entry = PendingScrobble(
-                    scrobbleData = scrobbleData,
-                    event = ScrobbleEvent.love,
-                    services = services.toSet(),
-                    lastFailedTimestamp = System.currentTimeMillis(),
-                    lastFailedReason = loveResults.values.firstOrNull { it.isFailure }
-                        ?.exceptionOrNull()?.redactedMessage?.take(100)
-                )
+                val exceptions = loveResults.values.mapNotNull { it.exceptionOrNull() }
 
-                if (entry.services.isNotEmpty()) {
-                    dao.insert(entry)
+                if (services.isNotEmpty()) {
+                    dao.insert(scrobbleData, ScrobbleEvent.love, services, exceptions)
                     PendingScrobblesWork.schedule(false)
                 }
             }
@@ -449,21 +440,17 @@ object ScrobbleEverywhere {
         val artist = scrobbleData.artist
         val title = scrobbleData.track
 
-        val cacheKey = createCacheKey(artist, title)
-        var track = lastfmTracksCache[cacheKey]
+        var fetchedTrack: Track? = null
 
-        if (track == null) {
-            val trackObj = Track(title, null, Artist(artist))
-            onNetworkRequestMade()
-            track = Requesters.lastfmUnauthedRequester.getInfo(trackObj)
-                .getOrNull()
-            if (track != null)
-                lastfmTracksCache.put(cacheKey, track)
-        }
+        val trackObj = Track(title, null, Artist(artist))
+        onNetworkRequestMade()
+        Requesters.lastfmUnauthedRequester.getTrackInfo2(trackObj)
+            .onSuccess {
+                fetchedTrack = it
+            }
 
-
-        if (track != null)
-            return extractAlbum(track, scrobbleData)
+        if (fetchedTrack != null)
+            return extractAlbum(fetchedTrack, scrobbleData)
 
         return AdditionalMetadataResult.Empty
     }
@@ -565,16 +552,18 @@ object ScrobbleEverywhere {
 
         if (track == null) {
             onNetworkRequestMade()
-            track = Requesters.deezerRequester.searchTrack(
+            Requesters.deezerRequester.searchTrack(
                 scrobbleData.artist,
                 scrobbleData.track,
                 limit = 5
             ).onFailure {
                 Logger.w(it) { "Failed to search Deezer for track" }
-            }.getOrNull()?.data?.firstOrNull {
-                it.title.equals(scrobbleData.track, ignoreCase = true)
-                // the album may be absent in scrobbleData, and the artist may contain multiple artists,
-                // so we don't check them here
+            }.onSuccess {
+                track = it.data.firstOrNull {
+                    it.title.equals(scrobbleData.track, ignoreCase = true)
+                    // the album may be absent in scrobbleData, and the artist may contain multiple artists,
+                    // so we don't check them here
+                }
             }
         }
 

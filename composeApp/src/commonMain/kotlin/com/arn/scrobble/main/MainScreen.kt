@@ -48,6 +48,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.WideNavigationRail
 import androidx.compose.material3.WideNavigationRailItem
+import androidx.compose.material3.WideNavigationRailItemDefaults
 import androidx.compose.material3.WideNavigationRailValue
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.pulltorefresh.pullToRefresh
@@ -82,7 +83,7 @@ import com.arn.scrobble.api.DrawerData
 import com.arn.scrobble.api.UserCached
 import com.arn.scrobble.icons.Icons
 import com.arn.scrobble.icons.automirrored.ArrowBack
-import com.arn.scrobble.imageloader.newImageLoader
+import com.arn.scrobble.imageloader.PanoImageLoader
 import com.arn.scrobble.navigation.BottomSheetSceneStrategy
 import com.arn.scrobble.navigation.LocalNavigationType
 import com.arn.scrobble.navigation.NavFromOutsideEffect
@@ -282,10 +283,9 @@ fun PanoAppContent(
         val storedHashcode = PlatformStuff.mainPrefs.data.map { it.changelogSeenHashcode }.first()
 
         if (storedHashcode != changelogHashcode) {
-            if (storedHashcode != null) {
+            if (storedHashcode != null && currentUser != null) { // don't show on onboarding
                 navigate(PanoRoute.Modal.Changelog(changelog))
             }
-            // else is fresh install
             PlatformStuff.mainPrefs.updateData { it.copy(changelogSeenHashcode = changelogHashcode) }
         }
     }
@@ -300,7 +300,7 @@ fun PanoAppContent(
     )
 
     setSingletonImageLoaderFactory { context ->
-        newImageLoader(context)
+        PanoImageLoader.newImageLoader(context)
     }
 
     CompositionLocalProvider(LocalNavigationType provides navigationType) {
@@ -784,6 +784,7 @@ private fun PanoNavigationRail(
                             overflow = TextOverflow.Ellipsis
                         )
                     },
+                    colors = WideNavigationRailItemDefaults.colors(selectedTextColor = MaterialTheme.colorScheme.onSecondaryContainer),
                     modifier = Modifier.fillMaxWidth()
                 )
             }

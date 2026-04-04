@@ -3,8 +3,8 @@ package com.arn.scrobble.utils
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asSkiaBitmap
 import androidx.datastore.core.DataStoreFactory
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room3.Room
+import androidx.room3.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import co.touchlab.kermit.Logger
 import com.arn.scrobble.PanoNativeComponents
@@ -48,10 +48,6 @@ actual object PlatformStuff {
     actual const val supportsDynamicColors = false
 
     actual const val isDesktop = true
-
-    actual val noUpdateCheck
-        get() =
-            DesktopStuff.noUpdateCheck
 
     actual const val hasSystemLocaleStore = false
 
@@ -168,6 +164,7 @@ actual object PlatformStuff {
             name = dbFile.absolutePath
         )
             .setDriver(BundledSQLiteDriver())
+            .setQueryCoroutineContext(Dispatchers.IO)
 
     }
 
