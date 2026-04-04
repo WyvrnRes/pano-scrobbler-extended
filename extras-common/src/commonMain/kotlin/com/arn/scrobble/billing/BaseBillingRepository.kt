@@ -28,6 +28,7 @@ abstract class BaseBillingRepository(
             if (forcePremium)
                 return@map LicenseState.VALID
 
+
             withContext(Dispatchers.IO) {
                 if (receipt == null) {
                     LicenseState.NO_LICENSE
@@ -38,7 +39,8 @@ abstract class BaseBillingRepository(
                 }
             }
         }
-        .stateIn(scope, SharingStarted.Lazily, LicenseState.UNKNOWN)
+            .stateIn(scope, SharingStarted.Lazily, LicenseState.UNKNOWN)
+    }
 
     abstract fun initBillingClient()
 

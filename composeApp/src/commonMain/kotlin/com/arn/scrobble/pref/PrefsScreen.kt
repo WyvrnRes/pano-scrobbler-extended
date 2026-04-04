@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arn.scrobble.BuildKonfig
 import com.arn.scrobble.api.AccountType
+import com.arn.scrobble.api.Requesters
 import com.arn.scrobble.billing.LocalLicenseValidState
 import com.arn.scrobble.db.PanoDb
 import com.arn.scrobble.icons.Api
@@ -62,6 +63,7 @@ import pano_scrobbler.composeapp.generated.resources.android
 import pano_scrobbler.composeapp.generated.resources.artist_image
 import pano_scrobbler.composeapp.generated.resources.auto
 import pano_scrobbler.composeapp.generated.resources.automation
+import pano_scrobbler.composeapp.generated.resources.cache
 import pano_scrobbler.composeapp.generated.resources.copy_sk
 import pano_scrobbler.composeapp.generated.resources.country_for_api
 import pano_scrobbler.composeapp.generated.resources.dark
@@ -113,6 +115,7 @@ import pano_scrobbler.composeapp.generated.resources.pref_themes
 import pano_scrobbler.composeapp.generated.resources.pref_translate
 import pano_scrobbler.composeapp.generated.resources.pref_translate_credits
 import pano_scrobbler.composeapp.generated.resources.pref_tray_icon_theme
+import pano_scrobbler.composeapp.generated.resources.proxy
 import pano_scrobbler.composeapp.generated.resources.regex_rules
 import pano_scrobbler.composeapp.generated.resources.scrobble_services
 import pano_scrobbler.composeapp.generated.resources.scrobbles
@@ -137,7 +140,7 @@ fun PrefsScreen(
     val scrobblerEnabled by mainPrefs.data.collectAsStateWithInitialValue { it.scrobblerEnabled }
     val allowedPackages by mainPrefs.data.collectAsStateWithInitialValue { it.allowedPackages }
     val scrobbleSpotifyRemoteP by mainPrefs.data.collectAsStateWithInitialValue { it.scrobbleSpotifyRemoteP }
-    val autoDetectApps by mainPrefs.data.collectAsStateWithInitialValue { it.autoDetectAppsP }
+    val autoDetectApps by mainPrefs.data.collectAsStateWithInitialValue { it.autoDetectApps }
     val delayPercent by mainPrefs.data.collectAsStateWithInitialValue { it.delayPercentP }
     val delaySecs by mainPrefs.data.collectAsStateWithInitialValue { it.delaySecsP }
     val minDurationSecs by mainPrefs.data.collectAsStateWithInitialValue { it.minDurationSecsP }
@@ -173,9 +176,9 @@ fun PrefsScreen(
     val extractFirstArtistPackages by
     mainPrefs.data.collectAsStateWithInitialValue { it.extractFirstArtistPackages }
     val demoMode by mainPrefs.data.collectAsStateWithInitialValue { it.demoModeP }
-    var isAddedToStartup by remember { mutableStateOf(false) }
+    val proxyHostPort by Requesters.proxyHostPort.collectAsStateWithLifecycle()
     val scrobblableLabels by
-    mainPrefs.data.collectAsStateWithInitialValue { it.scrobbleAccounts.associate { it.type to it.user.name } }
+    mainPrefs.data.collectAsStateWithInitialValue { p -> p.scrobbleAccounts.associate { it.type to it.user.name } }
     val updateProgress by remember {
         UpdaterWork.getProgress().filter { it.state == CommonWorkState.RUNNING }
     }.collectAsStateWithLifecycle(null)
@@ -263,14 +266,14 @@ fun PrefsScreen(
         }
 
         if (!PlatformStuff.isTv && !PlatformStuff.isDesktop) {
-            item(MainPrefs::autoDetectAppsP.name) {
+            item(MainPrefs::autoDetectApps.name) {
                 val notiEnabled =
                     remember { PanoNotifications.isNotiChannelEnabled(Stuff.CHANNEL_NOTI_NEW_APP) }
 
                 SwitchPref(
                     text = stringResource(Res.string.pref_auto_detect),
                     summary = if (!notiEnabled) stringResource(Res.string.notification_channel_blocked) else null,
-                    value = autoDetectApps,
+                    value = notiEnabled && autoDetectApps,
                     enabled = notiEnabled,
                     copyToSave = { copy(autoDetectApps = it) },
                 )
@@ -594,7 +597,8 @@ fun PrefsScreen(
             SwitchPref(
                 text = stringResource(
                     Res.string.pref_fetch_missing_album,
-                    stringResource(Res.string.lastfm)
+                    stringResource(Res.string.cache) + " & " +
+                            stringResource(Res.string.lastfm)
                 ),
                 value = fetchAlbum,
                 copyToSave = { copy(fetchAlbum = it) }
@@ -658,7 +662,19 @@ fun PrefsScreen(
             }
         }
 
-        if (!PlatformStuff.noUpdateCheck) {
+        item(MainPrefs::customProxyEnabled.name) {
+            TextPref(
+                text = stringResource(Res.string.proxy) + " (Experimental)",
+                summary = proxyHostPort?.let { (host, port) ->
+                    "$host:$port"
+                },
+                onClick = {
+                    onNavigate(PanoRoute.Modal.ProxyPref)
+                }
+            )
+        }
+
+        if (VariantStuff.githubApiUrl != null) {
             item(MainPrefs::autoUpdates.name) {
                 SwitchPref(
                     text = stringResource(Res.string.pref_notify_updates),
@@ -843,8 +859,8 @@ fun PrefsScreen(
                     onClick = {
                         scope.launch {
                             PlatformStuff.mainPrefs.data
-                                .map {
-                                    it.scrobbleAccounts.firstOrNull {
+                                .map { p ->
+                                    p.scrobbleAccounts.firstOrNull {
                                         it.type == AccountType.LASTFM
                                     }?.authKey
                                 }.first()

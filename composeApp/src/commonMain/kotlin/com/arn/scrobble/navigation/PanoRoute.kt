@@ -304,8 +304,6 @@ sealed interface PanoRoute : NavKey {
             val appId: String? = null,
         ) : Modal, DeepLinkable
 
-        @Serializable
-        data object Index : Modal
 
         @Serializable
         data object FixIt : Modal
@@ -330,6 +328,9 @@ sealed interface PanoRoute : NavKey {
 
         @Serializable
         data object MediaSearchPref : Modal
+
+        @Serializable
+        data object ProxyPref : Modal
     }
 
     fun homePagerTabData(accountType: AccountType): List<PanoTab> {

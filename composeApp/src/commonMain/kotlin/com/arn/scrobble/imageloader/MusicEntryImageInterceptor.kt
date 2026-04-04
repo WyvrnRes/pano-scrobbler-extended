@@ -25,7 +25,7 @@ class MusicEntryImageInterceptor : Interceptor {
 
     private val delayMs = 400L
     private val musicEntryCache by lazy { LruCache<String, FetchedImageUrls>(500) }
-    private val semaphore = Semaphore(2)
+    private val semaphore = Semaphore(1)
     private val customSpotifyMappingsDao by lazy { PanoDb.db.getCustomSpotifyMappingsDao() }
     private val spotifyArtistSearchApproximate by lazy { PlatformStuff.mainPrefs.data.map { it.spotifyArtistSearchApproximate } }
     private val useSpotify by lazy { PlatformStuff.mainPrefs.data.map { it.spotifyApi } }
@@ -131,22 +131,55 @@ class MusicEntryImageInterceptor : Interceptor {
                             }
                         } else {
                             var webp300 = album?.webp300
-                            val needImage = webp300 == null ||
+                            val needFetch = webp300 == null ||
                                     StarMapper.STAR_PATTERN in webp300
 
-                            if (needImage && musicEntryImageReq.fetchAlbumInfoIfMissing &&
+                            val dao = PanoDb.db.getSeenEntitiesDao()
+                            if (needFetch && musicEntryImageReq.fetchAlbumInfoIfMissing &&
                                 musicEntryImageReq.accountType == AccountType.LASTFM
                             ) {
-                                semaphore.withPermit {
-                                    delay(delayMs)
-                                    val albumOrTrack =
-                                        Requesters.lastfmUnauthedRequester.getInfo(entry)
-                                            .getOrNull()
+                                val seenAlbum = when (entry) {
+                                    is Album -> dao.getAlbumWithFetchedArt(
+                                        entry.artist!!.name,
+                                        entry.name
+                                    )
 
-                                    webp300 = when (albumOrTrack) {
-                                        is Album -> albumOrTrack.webp300
-                                        is Track -> albumOrTrack.album?.webp300
-                                        else -> null
+                                    is Track -> dao.getBestAlbumForTrackWithFetchedArt(
+                                        entry.artist.name,
+                                        entry.name
+                                    )
+                                }
+
+                                webp300 = seenAlbum?.artUrl
+
+                                // if the image from cache was still a placeholder, don't do a lookup
+                                if (seenAlbum == null) {
+                                    semaphore.withPermit {
+                                        delay(delayMs)
+
+                                        when (entry) {
+                                            is Album -> {
+                                                Requesters.lastfmUnauthedRequester.getAlbumInfo(
+                                                    entry
+                                                ).onSuccess {
+                                                    webp300 = it.webp300
+                                                }
+                                            }
+
+                                            is Track -> {
+                                                val t = dao.getTrack(
+                                                    entry.artist.name,
+                                                    entry.name
+                                                )
+                                                if (t?.trackInfoFetchedAt == null) {
+                                                    Requesters.lastfmUnauthedRequester.getTrackInfo(
+                                                        entry
+                                                    ).onSuccess {
+                                                        webp300 = it.album?.webp300
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }

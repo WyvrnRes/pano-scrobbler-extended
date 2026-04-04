@@ -3,12 +3,8 @@ package com.arn.scrobble.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.arn.scrobble.api.AccountType
 import com.arn.scrobble.api.Requesters
 import com.arn.scrobble.api.Requesters.postString
-import com.arn.scrobble.api.Scrobblables
-import com.arn.scrobble.api.UserAccountSerializable
-import com.arn.scrobble.api.UserCached
 import com.arn.scrobble.api.cache.CacheStrategy
 import com.arn.scrobble.pref.MainPrefs
 import com.arn.scrobble.ui.PanoSnackbarVisuals
@@ -255,7 +251,7 @@ object Stuff {
                 if (PlatformStuff.isDesktop)
                     Dispatchers.Default // should not touch Swing for non UI tasks
                 else
-                    Dispatchers.Main
+                    Dispatchers.Main.immediate
     )
 
     val countryCodesMap by lazy {
@@ -439,30 +435,6 @@ object Stuff {
                 }
             }
         }.awaitAll()
-    }
-
-    suspend fun addTestCreds(serviceStr: String, username: String, sk: String): Boolean {
-        val type = try {
-            AccountType.valueOf(serviceStr.uppercase())
-        } catch (e: IllegalArgumentException) {
-            return false
-        }
-
-        Scrobblables.add(
-            UserAccountSerializable(
-                type,
-                UserCached(
-                    username,
-                    "https://last.fm/user/$username",
-                    username,
-                    "",
-                    -1,
-                ),
-                sk
-            )
-        )
-
-        return true
     }
 
     fun formatBigHyphen(artist: String, title: String) = "$artist — $title"
