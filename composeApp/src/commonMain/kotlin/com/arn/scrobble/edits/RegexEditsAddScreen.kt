@@ -53,7 +53,6 @@ import com.arn.scrobble.icons.Check
 import com.arn.scrobble.icons.ContentCopy
 import com.arn.scrobble.icons.Delete
 import com.arn.scrobble.icons.Icons
-import com.arn.scrobble.icons.Info
 import com.arn.scrobble.icons.Lock
 import com.arn.scrobble.icons.Mic
 import com.arn.scrobble.icons.MusicNote
@@ -74,7 +73,6 @@ import com.arn.scrobble.utils.PlatformStuff
 import com.arn.scrobble.utils.Stuff.collectAsStateWithInitialValue
 import com.arn.scrobble.utils.redactedMessage
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.getString
@@ -90,7 +88,7 @@ import pano_scrobbler.composeapp.generated.resources.copy_from
 import pano_scrobbler.composeapp.generated.resources.delete
 import pano_scrobbler.composeapp.generated.resources.edit_all
 import pano_scrobbler.composeapp.generated.resources.edit_case_sensitive
-import pano_scrobbler.composeapp.generated.resources.edit_continue_other
+import pano_scrobbler.composeapp.generated.resources.edit_continue_regex
 import pano_scrobbler.composeapp.generated.resources.edit_extract
 import pano_scrobbler.composeapp.generated.resources.edit_extract_desc
 import pano_scrobbler.composeapp.generated.resources.edit_extract_extra_groups
@@ -236,7 +234,7 @@ fun RegexEditsAddScreen(
     }
 
     LaunchedEffect(Unit) {
-        mainViewModel.selectedPackages.collectLatest { (checked, _) ->
+        mainViewModel.selectedPackages.collect { (checked, _) ->
             appItems = checked.toSet()
         }
     }
@@ -542,7 +540,7 @@ fun RegexEditsAddScreen(
             LabeledCheckbox(
                 checked = continueMatching,
                 onCheckedChange = { continueMatching = it },
-                text = stringResource(Res.string.edit_continue_other),
+                text = stringResource(Res.string.edit_continue_regex),
                 modifier = Modifier.fillMaxWidth()
             )
 

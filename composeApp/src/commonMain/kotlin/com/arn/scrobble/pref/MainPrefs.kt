@@ -12,7 +12,6 @@ import com.arn.scrobble.api.UserAccountSerializable
 import com.arn.scrobble.api.UserCached
 import com.arn.scrobble.api.lastfm.CookieSerializable
 import com.arn.scrobble.api.lastfm.LastfmPeriod
-import com.arn.scrobble.api.lastfm.SearchType
 import com.arn.scrobble.charts.TimePeriod
 import com.arn.scrobble.charts.TimePeriodType
 import com.arn.scrobble.edits.RegexPreset
@@ -23,7 +22,6 @@ import com.arn.scrobble.themes.ThemeUtils
 import com.arn.scrobble.ui.GridMode
 import com.arn.scrobble.ui.SerializableWindowState
 import com.arn.scrobble.utils.LocaleUtils
-import com.arn.scrobble.utils.PanoNotifications
 import com.arn.scrobble.utils.PlatformStuff
 import com.arn.scrobble.utils.Stuff
 import com.arn.scrobble.utils.getSystemCountryCode
@@ -49,7 +47,7 @@ data class MainPrefs(
         RegexPreset.parse_title.name to Stuff.DEFAULT_IGNORE_ARTIST_META_WITHOUT_FALLBACK,
         RegexPreset.parse_title_with_fallback.name to Stuff.DEFAULT_IGNORE_ARTIST_META_WITH_FALLBACK
     ),
-    private val autoDetectApps: Boolean = true,
+    val autoDetectApps: Boolean = true,
     private val delaySecs: Int = PREF_DELAY_SECS_DEFAULT,
     private val delayPercent: Int = PREF_DELAY_PER_DEFAULT,
     private val minDurationSecs: Int = PREF_MIN_DURATON_SECS_DEFAULT,
@@ -59,7 +57,6 @@ data class MainPrefs(
     val submitNowPlaying: Boolean = true,
     val fetchAlbum: Boolean = false,
     val searchInSource: Boolean = false,
-    val lastSearchType: SearchType = SearchType.GLOBAL,
     val firstDayOfWeek: Int = -1,
     private val demoMode: Boolean = false,
     val showScrobbleSources: Boolean = true,
@@ -85,10 +82,6 @@ data class MainPrefs(
     val collageSize: Int = 3,
     val collageCaptions: Boolean = true,
     val collageBorders: Boolean = true,
-    val lastFullIndexTime: Long? = null,
-    val lastDeltaIndexTime: Long? = null,
-    val lastFullIndexedScrobbleTime: Long? = null,
-    val lastDeltaIndexedScrobbleTime: Long? = null,
     val gridMode: GridMode = GridMode.GRID,
     val regexLearnt: Boolean = false,
     val desktopAppLearnt: Boolean = false,
@@ -129,6 +122,10 @@ data class MainPrefs(
     private val logToFileOnAndroidSince: Long = -1,
     val extractFirstArtistPackages: Set<String> = emptySet(),
     val discordRpc: DiscordRpcSettings = DiscordRpcSettings(),
+    val customProxyEnabled: Boolean = false,
+    val proxyHost: String = "127.0.0.1",
+    val proxyPort: Int = 1080,
+    val lovesFetchedForCache: Boolean = false,
 ) {
 
     @Serializable
@@ -193,12 +190,6 @@ data class MainPrefs(
         val discordRpc: DiscordRpcSettings = defaultMainPrefs.discordRpc,
     )
 
-    val autoDetectAppsP
-        get() = if (!PanoNotifications.isNotiChannelEnabled(Stuff.CHANNEL_NOTI_NEW_APP))
-            false
-        else
-            autoDetectApps
-
     val delaySecsP
         get() = delaySecs.coerceIn(PREF_DELAY_SECS_MIN, PREF_DELAY_SECS_MAX)
 
@@ -210,12 +201,6 @@ data class MainPrefs(
 
     val demoModeP
         get() = demoMode && BuildKonfig.DEBUG
-
-    val lastMaxIndexedScrobbleTime
-        get() = lastDeltaIndexedScrobbleTime ?: lastFullIndexedScrobbleTime
-
-    val lastMaxIndexTime
-        get() = lastDeltaIndexTime ?: lastFullIndexTime
 
     val spotifyCountryP
         get() = spotifyCountry ?: LocaleUtils.getSystemCountryCode()
@@ -293,7 +278,7 @@ data class MainPrefs(
         minDurationSecs = minDurationSecsP,
         submitNowPlaying = submitNowPlaying,
         fetchAlbum = fetchAlbum,
-        autoDetectApps = autoDetectAppsP,
+        autoDetectApps = autoDetectApps,
         showScrobbleSources = showScrobbleSources,
         linkHeartButtonToRating = linkHeartButtonToRating,
         themeName = themeName,

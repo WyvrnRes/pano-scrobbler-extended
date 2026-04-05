@@ -1,8 +1,5 @@
 package com.arn.scrobble.edits
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -56,13 +53,8 @@ import com.arn.scrobble.ui.IconButtonWithTooltip
 import com.arn.scrobble.ui.InlineCheckButton
 import com.arn.scrobble.ui.LabeledCheckbox
 import com.arn.scrobble.ui.PanoOutlinedTextField
+import com.arn.scrobble.ui.shimmerWindowBounds
 import com.arn.scrobble.utils.redactedMessage
-import com.valentinilk.shimmer.LocalShimmerTheme
-import com.valentinilk.shimmer.ShimmerBounds
-import com.valentinilk.shimmer.rememberShimmer
-import com.valentinilk.shimmer.shimmer
-import com.valentinilk.shimmer.shimmerSpec
-import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.stringResource
 import pano_scrobbler.composeapp.generated.resources.Res
 import pano_scrobbler.composeapp.generated.resources.album
@@ -74,7 +66,7 @@ import pano_scrobbler.composeapp.generated.resources.corrected
 import pano_scrobbler.composeapp.generated.resources.delete
 import pano_scrobbler.composeapp.generated.resources.disable
 import pano_scrobbler.composeapp.generated.resources.edit
-import pano_scrobbler.composeapp.generated.resources.edit_continue_other
+import pano_scrobbler.composeapp.generated.resources.edit_continue_simple
 import pano_scrobbler.composeapp.generated.resources.edit_example
 import pano_scrobbler.composeapp.generated.resources.edit_no_save
 import pano_scrobbler.composeapp.generated.resources.existing_value
@@ -138,19 +130,6 @@ fun SimpleEditsAddScreen(
     val noChangeText = stringResource(Res.string.rank_change_no_change)
     var errorText by rememberSaveable { mutableStateOf<String?>(null) }
     var verifying by rememberSaveable { mutableStateOf(false) }
-    val shimmer = rememberShimmer(
-        shimmerBounds = ShimmerBounds.View,
-        theme = LocalShimmerTheme.current.copy(
-            animationSpec = infiniteRepeatable(
-                animation = shimmerSpec(
-                    durationMillis = 800,
-                    easing = LinearEasing,
-                    delayMillis = 200,
-                ),
-                repeatMode = RepeatMode.Restart,
-            ),
-        )
-    )
 
     fun doEdit() {
         if (
@@ -216,7 +195,7 @@ fun SimpleEditsAddScreen(
             notifyPlayingTrackEvent(
                 PlayingTrackNotifyEvent.TrackScrobbleLocked(
                     hash = hash,
-                    locked = true
+                    state = PlayingTrackNotifyEvent.TrackScrobbleLocked.LockState.LOCKED
                 ),
             )
         }
@@ -226,7 +205,7 @@ fun SimpleEditsAddScreen(
                 notifyPlayingTrackEvent(
                     PlayingTrackNotifyEvent.TrackScrobbleLocked(
                         hash = hash,
-                        locked = false
+                        state = PlayingTrackNotifyEvent.TrackScrobbleLocked.LockState.UNLOCKED
                     ),
                 )
             }
@@ -234,7 +213,7 @@ fun SimpleEditsAddScreen(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.editScrobbleUtils.result.collectLatest { (origSd, result) ->
+        viewModel.editScrobbleUtils.result.collect { (origSd, result) ->
             if (origSd == origScrobbleData) {
                 result.onSuccess {
                     verifying = false
@@ -254,14 +233,14 @@ fun SimpleEditsAddScreen(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.editScrobbleUtils.updatedAlbum.collectLatest { (origSd, it) ->
+        viewModel.editScrobbleUtils.updatedAlbum.collect { (origSd, it) ->
             if (origSd == origScrobbleData)
                 album = it
         }
     }
 
     LaunchedEffect(Unit) {
-        viewModel.editScrobbleUtils.updatedAlbumArtist.collectLatest { (origSd, it) ->
+        viewModel.editScrobbleUtils.updatedAlbumArtist.collect { (origSd, it) ->
             if (origSd == origScrobbleData)
                 albumArtist = it
         }
@@ -455,7 +434,7 @@ fun SimpleEditsAddScreen(
             LabeledCheckbox(
                 checked = continueMatching,
                 onCheckedChange = { continueMatching = it },
-                text = stringResource(Res.string.edit_continue_other),
+                text = stringResource(Res.string.edit_continue_simple),
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -547,7 +526,7 @@ fun SimpleEditsAddScreen(
                         Res.string.save
                 ),
                 modifier = if (verifying)
-                    Modifier.shimmer(customShimmer = shimmer)
+                    Modifier.shimmerWindowBounds()
                 else
                     Modifier
             )

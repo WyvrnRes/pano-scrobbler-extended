@@ -2,7 +2,7 @@ package com.arn.scrobble.utils
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.datastore.core.DataStore
-import androidx.room.RoomDatabase
+import androidx.room3.RoomDatabase
 import com.arn.scrobble.api.lastfm.MusicEntry
 import com.arn.scrobble.db.PanoDb
 import com.arn.scrobble.pref.MainPrefs
@@ -31,8 +31,6 @@ expect object PlatformStuff {
 
     val isDesktop: Boolean
 
-    val noUpdateCheck: Boolean
-
     val hasSystemLocaleStore: Boolean
 
     val appIdPlaceholder: String
@@ -49,7 +47,7 @@ expect object PlatformStuff {
     fun getDatabaseBuilder(): RoomDatabase.Builder<PanoDb>
 
     fun loadApplicationLabel(appId: String): String
-    
+
     fun doesAppExist(appId: String): Boolean
 
     fun copyToClipboard(text: String)

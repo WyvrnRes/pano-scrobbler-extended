@@ -1,15 +1,11 @@
 package com.arn.scrobble.db
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room3.ColumnInfo
+import androidx.room3.Entity
+import androidx.room3.Index
+import androidx.room3.PrimaryKey
 import kotlinx.serialization.Serializable
 
-
-/**
- * Created by arn on 11/09/2017.
- */
 
 @Entity(
     tableName = SimpleEditsDao.tableName,
@@ -34,7 +30,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SimpleEdit(
     @PrimaryKey(autoGenerate = true)
-    val _id: Int = 0,
+    val _id: Long = 0,
 
     @ColumnInfo(defaultValue = "1")
     val hasOrigTrack: Boolean = true,

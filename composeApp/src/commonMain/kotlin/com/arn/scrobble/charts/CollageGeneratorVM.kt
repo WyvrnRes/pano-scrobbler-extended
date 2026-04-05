@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
@@ -32,12 +31,12 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil3.Image
 import coil3.PlatformContext
 import coil3.SingletonImageLoader
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.size.Scale
-import coil3.toBitmap
 import com.arn.scrobble.BuildKonfig
 import com.arn.scrobble.api.Scrobblables
 import com.arn.scrobble.api.UserCached
@@ -55,6 +54,7 @@ import com.arn.scrobble.utils.Stuff
 import com.arn.scrobble.utils.Stuff.mapConcurrently
 import com.arn.scrobble.utils.redactedMessage
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -85,6 +85,7 @@ class CollageGeneratorVM(private val isLicenseValid: Boolean) : ViewModel() {
     private lateinit var context: PlatformContext
 
     private val paddingPx = 16
+    private var collageJob: Job? = null
 
     fun generateCollage(
         context: PlatformContext,
@@ -100,7 +101,9 @@ class CollageGeneratorVM(private val isLicenseValid: Boolean) : ViewModel() {
         iconPainters: IconPaintersForCollage,
     ) {
         this.context = context
-        viewModelScope.launch {
+
+        collageJob?.cancel()
+        collageJob = viewModelScope.launch {
             _generateCollage(
                 type = type,
                 size = size,
@@ -221,23 +224,24 @@ class CollageGeneratorVM(private val isLicenseValid: Boolean) : ViewModel() {
         _sharableCollage.emit(image to (shareTitle + shareBody + shareSig))
     }
 
-    private suspend fun fetchProfilePic(user: UserCached, sizePx: Int): ImageBitmap? {
-        // load profile pic
-        val profilePicUrl = user.largeImage
-
-        val profilePicRequest = ImageRequest.Builder(context).apply {
-            data(profilePicUrl)
-            crossfade(false)
-            placeholder(null)
-        }.build()
-
-        return withContext(Dispatchers.IO) {
-            SingletonImageLoader.get(context).execute(profilePicRequest).image
-                ?.toBitmap(width = sizePx, height = sizePx)
-                ?.asImageBitmap()
-//                ?: Icons.Default.Person.asComposeImageBitmap()
-        }
-    }
+//    private suspend fun fetchProfilePic(user: UserCached, sizePx: Int): ImageBitmap? {
+//        // load profile pic
+//        val profilePicUrl = user.largeImage
+//
+//        val profilePicRequest = ImageRequest.Builder(context).apply {
+//            data(profilePicUrl)
+//            crossfade(false)
+//            placeholder(null)
+//        }.build()
+//
+//        return withContext(Dispatchers.IO) {
+//            SingletonImageLoader.get(context).execute(profilePicRequest).image
+//                ?.toBitmap(width = sizePx, height = sizePx)
+////                ?.asImageBitmap()
+////                ?.asComposeImageBitmap()
+////                ?: Icons.Default.Person.asComposeImageBitmap()
+//        }
+//    }
 
     private fun DrawScope.drawTextFillAndStroke(
         textLayoutResult: TextLayoutResult,
@@ -344,7 +348,7 @@ class CollageGeneratorVM(private val isLicenseValid: Boolean) : ViewModel() {
                     imgOffsetX = (cellSize - scaledWidth) / 2
                     imgOffsetY = (cellSize - scaledHeight) / 2
 
-                    img.toBitmap().asImageBitmap()
+                    img
                 }
 
                 val x =
@@ -379,7 +383,8 @@ class CollageGeneratorVM(private val isLicenseValid: Boolean) : ViewModel() {
                     )
                 }) {
                     if (artwork != null) {
-                        drawImage(
+                        drawCoilImage(
+                            this,
                             image = artwork,
                             dstOffset = IntOffset(x.toInt() + imgOffsetX, y.toInt() + imgOffsetY),
                             dstSize = IntSize(scaledWidth, scaledHeight)
@@ -756,4 +761,11 @@ class CollageGeneratorVM(private val isLicenseValid: Boolean) : ViewModel() {
 expect fun CollageGeneratorVM.shareCollage(
     image: ImageBitmap,
     text: String?,
+)
+
+expect fun CollageGeneratorVM.drawCoilImage(
+    drawScope: DrawScope,
+    image: Image,
+    dstOffset: IntOffset,
+    dstSize: IntSize
 )

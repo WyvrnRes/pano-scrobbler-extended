@@ -11,18 +11,9 @@ import com.arn.scrobble.api.lastfm.Artist
 import com.arn.scrobble.api.lastfm.LastFm
 import com.arn.scrobble.api.lastfm.MusicEntry
 import com.arn.scrobble.api.lastfm.Track
-import com.arn.scrobble.db.CachedAlbum.Companion.toCachedAlbum
-import com.arn.scrobble.db.CachedAlbumsDao.Companion.deltaUpdate
-import com.arn.scrobble.db.CachedArtist.Companion.toCachedArtist
-import com.arn.scrobble.db.CachedArtistsDao.Companion.deltaUpdate
-import com.arn.scrobble.db.CachedTrack.Companion.toCachedTrack
-import com.arn.scrobble.db.CachedTracksDao.Companion.deltaUpdate
-import com.arn.scrobble.db.DirtyUpdate
-import com.arn.scrobble.db.PanoDb
 import com.arn.scrobble.utils.PlatformStuff
 import com.arn.scrobble.utils.Stuff
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -72,7 +63,7 @@ class InfoVM(
                     .first()
             ) {
                 _infoMap.value = withContext(Dispatchers.IO) {
-                    getInfos(infos, _username)
+                    fetchInfos(infos, _username)
                 }
             }
             _infoLoaded.emit(true)
@@ -111,123 +102,46 @@ class InfoVM(
         return entriesMap
     }
 
-    private suspend fun getInfos(
+    private suspend fun fetchInfos(
         infoMapp: Map<Int, MusicEntry>,
         username: String?,
     ) = supervisorScope {
-        val db = PanoDb.db
         val infoMap = infoMapp.toMutableMap()
 
-        suspend fun doDirtyDeltaUpdates(
-            artist: Artist?,
-            album: Album?,
-            track: Track?,
-            albumArtist: Artist?,
-        ) {
-            if (username == null)
-                return
-
-            track?.let {
-                if (it.userplaycount != null)
-                    db.getCachedTracksDao()
-                        .deltaUpdate(
-                            it.toCachedTrack().copy(userPlayCount = it.userplaycount),
-                            0,
-                            DirtyUpdate.DIRTY_ABSOLUTE
-                        )
-            }
-            album?.let {
-                if (it.userplaycount != null)
-                    db.getCachedAlbumsDao()
-                        .deltaUpdate(
-                            it.toCachedAlbum().copy(userPlayCount = it.userplaycount),
-                            0, DirtyUpdate.DIRTY_ABSOLUTE
-                        )
-            }
-            artist?.let {
-                if (it.userplaycount != null)
-                    db.getCachedArtistsDao()
-                        .deltaUpdate(
-                            it.toCachedArtist().copy(userPlayCount = it.userplaycount),
-                            0,
-                            DirtyUpdate.DIRTY_ABSOLUTE
-                        )
-            }
-            albumArtist?.let {
-                if (it.userplaycount != null)
-                    db.getCachedArtistsDao()
-                        .deltaUpdate(
-                            it.toCachedArtist().copy(userPlayCount = it.userplaycount),
-                            0,
-                            DirtyUpdate.DIRTY_ABSOLUTE
-                        )
-            }
-        }
-
-        var albumArtist: Artist? = null
         var album = infoMap[Stuff.TYPE_ALBUMS] as? Album
         val artist = infoMap[Stuff.TYPE_ARTISTS] as? Artist
         val track = infoMap[Stuff.TYPE_TRACKS] as? Track
 
-        val trackDef = async {
-            track?.let {
-                Requesters.lastfmUnauthedRequester.getInfo(it, username)
-            }?.getOrNull()
-        }
+        var trackFetched: Track? = null
 
         if (track != null) {
-            val trackInfo = trackDef.await()
-            if (trackInfo != null) {
-                infoMap[Stuff.TYPE_TRACKS] = trackInfo
+            Requesters.lastfmUnauthedRequester.getTrackInfo(track, username)
+                .onSuccess {
+                    infoMap[Stuff.TYPE_TRACKS] = it
+                    trackFetched = it
+                    if (album == null)
+                        album = it.album
+                }
+        }
+
+        if (artist != null) {
+            Requesters.lastfmUnauthedRequester.getArtistInfo(artist, username).onSuccess {
+                infoMap[Stuff.TYPE_ARTISTS] = it
             }
-
-            if (album == null)
-                album = trackInfo?.album
-            albumArtist = trackInfo?.album?.artist
-
         }
 
-        val artistDef = async {
-            artist?.let {
-                Requesters.lastfmUnauthedRequester.getInfo(it, username)
-            }?.getOrNull()
+        if (trackFetched?.album?.artist != null && trackFetched.album.artist.name.lowercase() != artist?.name?.lowercase()) {
+            Requesters.lastfmUnauthedRequester.getArtistInfo(trackFetched.album.artist, username)
+                .onSuccess {
+                    infoMap[Stuff.TYPE_ALBUM_ARTISTS] = it
+                }
         }
 
-        val albumArtistDef = async {
-            if (albumArtist != null && albumArtist.name.lowercase() != artist?.name?.lowercase())
-                albumArtist.let {
-                    Requesters.lastfmUnauthedRequester.getInfo(it, username)
-                }.getOrNull()
-            else
-                null
-        }
-
-        val albumDef = async {
-            album?.let {
-                Requesters.lastfmUnauthedRequester.getInfo(it, username)
-            }?.getOrNull()
-        }
-
-        artistDef.await()?.let {
-            infoMap[Stuff.TYPE_ARTISTS] = it
-        }
-        albumArtistDef.await()?.let {
-            infoMap[Stuff.TYPE_ALBUM_ARTISTS] = it
-        }
-        albumDef.await()?.let {
-            infoMap[Stuff.TYPE_ALBUMS] = it
-        }
-
-        // dirty delta updates only for lastfm and self
-        val accountType =
-            PlatformStuff.mainPrefs.data.map { it.currentAccountType }.first()
-        if (accountType == AccountType.LASTFM) {
-            doDirtyDeltaUpdates(
-                artistDef.await(),
-                albumDef.await(),
-                trackDef.await(),
-                albumArtistDef.await()
-            )
+        if (album != null) {
+            Requesters.lastfmUnauthedRequester.getAlbumInfo(album, username)
+                .onSuccess {
+                    infoMap[Stuff.TYPE_ALBUMS] = it
+                }
         }
 
         infoMap.toMap()

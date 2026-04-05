@@ -173,6 +173,8 @@ actual object PlatformSpecificPrefs {
         onNavigate: (PanoRoute) -> Unit,
     ) {
         listScope.item(MainPrefs::scrobblerEnabled.name) {
+            val scope = rememberCoroutineScope()
+
             SwitchPref(
                 text = stringResource(Res.string.pref_master),
                 summary = if (!nlsEnabled)
@@ -184,8 +186,13 @@ actual object PlatformSpecificPrefs {
                     if (!nlsEnabled) {
                         onNavigate(PanoRoute.Onboarding)
                         this
-                    } else
+                    } else {
+                        scope.launch {
+                            MasterSwitchQS.requestListeningState()
+                        }
+
                         copy(scrobblerEnabled = it)
+                    }
                 }
             )
         }

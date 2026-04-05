@@ -7,7 +7,7 @@ import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.crashlytics.recordException
 
 
-object CrashlyticsLogWriter : LogWriter() {
+internal object CrashlyticsLogWriter : LogWriter() {
     override fun isLoggable(tag: String, severity: Severity): Boolean =
         severity >= Severity.Warn
 
@@ -17,9 +17,10 @@ object CrashlyticsLogWriter : LogWriter() {
         tag: String,
         throwable: Throwable?
     ) {
-        if (message.isNotBlank() && throwable == null) {
+        if (message.isNotBlank())
             Firebase.crashlytics.log(message)
-        } else if (throwable != null) {
+
+        if (throwable != null) {
             if (message.isBlank())
                 Firebase.crashlytics.recordException(throwable)
             else

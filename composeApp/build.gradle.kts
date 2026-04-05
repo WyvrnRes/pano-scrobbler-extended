@@ -88,6 +88,7 @@ kotlin {
             implementation(libs.core.remoteviews)
             implementation(libs.coil.gif)
             implementation(libs.qrcode)
+            implementation(libs.webkit)
         }
 
         commonMain {
@@ -115,7 +116,6 @@ kotlin {
                 implementation(libs.aboutlibraries.core)
                 implementation(libs.kotlin.csv.jvm)
                 implementation(libs.kermit)
-                implementation(libs.compose.shimmer)
                 implementation(libs.datastore.core)
                 implementation(libs.paging.common)
                 implementation(libs.paging.compose)
@@ -156,9 +156,8 @@ dependencies {
     "androidRuntimeClasspath"(libs.tooling)
 }
 
-room {
+room3 {
     schemaDirectory("$projectDir/schemas")
-    generateKotlin = true
 }
 
 buildkonfig {
@@ -603,7 +602,8 @@ tasks.register<Exec>("buildNativeImage") {
         else
             "$graalvmHome/bin/native-image",
         "--no-fallback",
-        "-march=" + if (arch in archArm64) "armv8.1-a" else "x86-64-v2",
+//        "-march=" + if (arch in archArm64) "armv8.1-a" else "x86-64-v2",
+        if (os.isLinux && arch in archAmd64) "-march=x86-64-v2" else null,
         if (os.isLinux && arch in archArm64) "-H:PageSize=16384" else null,
         if (os.isLinux) "--add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED" else null,
         "-H:+UnlockExperimentalVMOptions",

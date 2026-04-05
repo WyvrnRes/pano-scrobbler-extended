@@ -1,19 +1,22 @@
 package com.arn.scrobble.api.lastfm
 
+import co.touchlab.kermit.Logger
 import com.arn.scrobble.BuildKonfig
 import com.arn.scrobble.api.Requesters
 import com.arn.scrobble.api.Requesters.getPageResult
 import com.arn.scrobble.api.Requesters.getResult
 import com.arn.scrobble.api.Requesters.postResult
+import com.arn.scrobble.api.Scrobblables
 import com.arn.scrobble.api.lastfm.LastFm.Companion.toFormParametersWithSig
+import com.arn.scrobble.db.PanoDb
+import com.arn.scrobble.db.SeenTrackAlbumAssociation
 import com.arn.scrobble.utils.Stuff
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.parameter
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
-import kotlinx.coroutines.async
-import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.launch
 
 class LastFmUnauthedRequester {
 
@@ -27,45 +30,43 @@ class LastFmUnauthedRequester {
     )
     private val client get() = Requesters.genericKtorClient
 
+    private val outerScope = Stuff.appScope
+
+    private fun HttpRequestBuilder.commonReq() {
+        url(Stuff.LASTFM_API_ROOT)
+        parameter("format", "json")
+        parameter("api_key", apiKey)
+    }
+
     // search
     suspend fun search(
         term: String,
         limitEach: Int? = null,
-    ): Result<SearchResults> = supervisorScope {
-        val request = HttpRequestBuilder().apply {
-            this.url(Stuff.LASTFM_API_ROOT)
-            parameter("limit", limitEach)
-            parameter("format", "json")
-            parameter("api_key", apiKey)
-        }
-
+    ): Result<SearchResults> {
         // search API sometimes returns duplicates
-        val artists = async {
-            client.getResult<ArtistSearchResponse>(Stuff.LASTFM_API_ROOT) {
-                takeFrom(request)
-                parameter("method", "artist.search")
-                parameter("artist", term)
-            }.map { it.results.artistmatches.entries }
-        }.await()
+        val artists = client.getResult<ArtistSearchResponse>(Stuff.LASTFM_API_ROOT) {
+            parameter("method", "artist.search")
+            parameter("artist", term)
+            parameter("limit", limitEach)
+            commonReq()
+        }.map { it.results.artistmatches.entries }
 
-        val albums = async {
-            client.getResult<AlbumSearchResponse>(Stuff.LASTFM_API_ROOT) {
-                takeFrom(request)
-                parameter("method", "album.search")
-                parameter("album", term)
-            }.map { it.results.albummatches.entries }
-        }.await()
+        val albums = client.getResult<AlbumSearchResponse>(Stuff.LASTFM_API_ROOT) {
+            parameter("method", "album.search")
+            parameter("album", term)
+            parameter("limit", limitEach)
+            commonReq()
+        }.map { it.results.albummatches.entries }
 
-        val tracks = async {
-            client.getResult<TrackSearchResponse>(Stuff.LASTFM_API_ROOT) {
-                takeFrom(request)
-                parameter("method", "track.search")
-                parameter("track", term)
-            }.map { it.results.trackmatches.entries }
-        }.await()
+        val tracks = client.getResult<TrackSearchResponse>(Stuff.LASTFM_API_ROOT) {
+            parameter("method", "track.search")
+            parameter("track", term)
+            parameter("limit", limitEach)
+            commonReq()
+        }.map { it.results.trackmatches.entries }
 
         if (artists.isFailure || albums.isFailure || tracks.isFailure)
-            return@supervisorScope Result.failure(
+            return Result.failure(
                 artists.exceptionOrNull()
                     ?: albums.exceptionOrNull()
                     ?: tracks.exceptionOrNull()!!
@@ -73,83 +74,110 @@ class LastFmUnauthedRequester {
 
         val sr = SearchResults(
             term,
-            searchType = SearchType.GLOBAL,
             lovedTracks = listOf(),
             tracks = tracks.getOrDefault(listOf()),
             artists = artists.getOrDefault(listOf()),
             albums = albums.getOrDefault(listOf()),
         )
-        Result.success(sr)
+
+        return Result.success(sr)
     }
 
 
-    suspend fun <T : MusicEntry> getInfo(
-        musicEntry: T,
+    suspend fun getTrackInfo2(
+        musicEntry: Track,
+    ) = getTrackInfo(musicEntry, null)
+
+    suspend fun getTrackInfo(
+        musicEntry: Track,
         username: String? = null,
-    ): Result<T> {
-        val reqBuilder = HttpRequestBuilder().apply {
-            url(Stuff.LASTFM_API_ROOT)
-            parameter("username", username)
-            parameter("format", "json")
-            parameter("api_key", apiKey)
+    ) = client.getResult<TrackInfoResponse> {
+        url(Stuff.LASTFM_API_ROOT)
+        parameter("username", username)
+        parameter("format", "json")
+        parameter("api_key", apiKey)
+        parameter("method", "track.getInfo")
+        doubleEncodePlusParam("artist", musicEntry.artist.name)
+        doubleEncodePlusParam("track", musicEntry.name)
+    }.map {
+        // fix duration returned in millis
+        val track = it.track.copy(duration = it.track.duration?.div(1000))
+
+        Logger.d { "getTrackInfo for ${musicEntry.artist.name} - ${musicEntry.name}" }
+
+        // run cache hook
+        outerScope.launch {
+            val isSelf =
+                Scrobblables.current?.userAccount?.user?.let { it.name == username } == true
+
+            PanoDb.db.getSeenEntitiesDao().saveRecentTracks(
+                listOf(track),
+                mayHaveAlbumArt = true,
+                savedLoved = isSelf,
+                priority = SeenTrackAlbumAssociation.Priority.TRACK_INFO,
+            )
         }
 
-        return when (musicEntry) {
-            is Artist -> client.getResult<ArtistInfoResponse> {
-                takeFrom(reqBuilder)
-                parameter("method", "artist.getInfo")
-                doubleEncodePlusParam("artist", musicEntry.name)
-            }.map { it.artist as T }
+        track
+    }
 
-            is Album -> client.getResult<AlbumInfoResponse> {
-                takeFrom(reqBuilder)
-                // this does not have double encoding bug
-                parameter("method", "album.getInfo")
-                parameter("artist", musicEntry.artist!!.name)
-                parameter("album", musicEntry.name)
-            }.map { it.album as T }
+    suspend fun getAlbumInfo(
+        musicEntry: Album,
+        username: String? = null,
+    ) = client.getResult<AlbumInfoResponse> {
+        parameter("method", "album.getInfo")
+        parameter("username", username)
+        // this does not have double encoding bug
+        parameter("artist", musicEntry.artist!!.name)
+        parameter("album", musicEntry.name)
+        commonReq()
+    }.map {
+        Logger.d { "getAlbumInfo for ${musicEntry.artist?.name} - ${musicEntry.name}" }
 
-            is Track -> client.getResult<TrackInfoResponse> {
-                takeFrom(reqBuilder)
-                parameter("method", "track.getInfo")
-                doubleEncodePlusParam("artist", musicEntry.artist.name)
-                doubleEncodePlusParam("track", musicEntry.name)
-            }.map {
-                // fix duration returned in millis
-                (it.track.copy(duration = it.track.duration?.div(1000)) as T)
-            }
+        // run cache hook
+        outerScope.launch {
+            PanoDb.db.getSeenEntitiesDao().saveAlbumInfoTracklist(it.album)
         }
+
+        it.album
+    }
+
+    suspend fun getArtistInfo(
+        musicEntry: Artist,
+        username: String? = null,
+    ) = client.getResult<ArtistInfoResponse> {
+        parameter("username", username)
+        parameter("method", "artist.getInfo")
+        doubleEncodePlusParam("artist", musicEntry.name)
+        commonReq()
+    }.map {
+        Logger.d { "getArtistInfo for ${musicEntry.name}" }
+        it.artist
     }
 
     suspend fun <T : MusicEntry> getTopTags(
         musicEntry: T,
     ): Result<TagsResponse> {
-        val reqBuilder = HttpRequestBuilder().apply {
-            url(Stuff.LASTFM_API_ROOT)
-            parameter("format", "json")
-            parameter("api_key", apiKey)
-        }
+        return client.getResult<TagsResponse> {
+            when (musicEntry) {
+                is Artist -> {
+                    parameter("method", "artist.getTopTags")
+                    doubleEncodePlusParam("artist", musicEntry.name)
+                }
 
-        return when (musicEntry) {
-            is Artist -> client.getResult<TagsResponse> {
-                takeFrom(reqBuilder)
-                parameter("method", "artist.getTopTags")
-                doubleEncodePlusParam("artist", musicEntry.name)
-            }
+                is Album -> {
+                    parameter("method", "album.getTopTags")
+                    doubleEncodePlusParam("artist", musicEntry.artist!!.name)
+                    doubleEncodePlusParam("album", musicEntry.name)
+                }
 
-            is Album -> client.getResult<TagsResponse> {
-                takeFrom(reqBuilder)
-                parameter("method", "album.getTopTags")
-                doubleEncodePlusParam("artist", musicEntry.artist!!.name)
-                doubleEncodePlusParam("album", musicEntry.name)
+                is Track -> {
+                    parameter("method", "track.getTopTags")
+                    doubleEncodePlusParam("artist", musicEntry.artist.name)
+                    doubleEncodePlusParam("track", musicEntry.name)
+                }
             }
-
-            is Track -> client.getResult<TagsResponse> {
-                takeFrom(reqBuilder)
-                parameter("method", "track.getTopTags")
-                doubleEncodePlusParam("artist", musicEntry.artist.name)
-                doubleEncodePlusParam("track", musicEntry.name)
-            }
+            commonReq()
         }
     }
 
@@ -158,15 +186,13 @@ class LastFmUnauthedRequester {
         limit: Int? = null,
         page: Int? = null,
     ) = client.getPageResult<TopTracksResponse, Track>(
-        Stuff.LASTFM_API_ROOT,
-        { it.toptracks }
+        transform = { it.toptracks }
     ) {
         parameter("method", "artist.getTopTracks")
         doubleEncodePlusParam("artist", artist.name)
         parameter("limit", limit)
         parameter("page", page)
-        parameter("format", "json")
-        parameter("api_key", apiKey)
+        commonReq()
     }
 
     suspend fun artistGetTopAlbums(
@@ -174,27 +200,23 @@ class LastFmUnauthedRequester {
         limit: Int? = null,
         page: Int? = null,
     ) = client.getPageResult<TopAlbumsResponse, Album>(
-        Stuff.LASTFM_API_ROOT,
-        { it.topalbums }
+        transform = { it.topalbums }
     ) {
         parameter("method", "artist.getTopAlbums")
         doubleEncodePlusParam("artist", artist.name)
         parameter("limit", limit)
         parameter("page", page)
-        parameter("format", "json")
-        parameter("api_key", apiKey)
+        commonReq()
     }
 
     suspend fun artistGetSimilar(
         artist: Artist,
         limit: Int? = null,
     ) = client.getResult<SimilarArtistsResponse> {
-        url(Stuff.LASTFM_API_ROOT)
         parameter("method", "artist.getSimilar")
         doubleEncodePlusParam("artist", artist.name)
         parameter("limit", limit)
-        parameter("format", "json")
-        parameter("api_key", apiKey)
+        commonReq()
     }.map { it.similarartists.artist }
 
 
@@ -202,23 +224,19 @@ class LastFmUnauthedRequester {
         track: Track,
         limit: Int? = null,
     ) = client.getResult<SimilarTracksResponse> {
-        url(Stuff.LASTFM_API_ROOT)
         parameter("method", "track.getSimilar")
         doubleEncodePlusParam("artist", track.artist.name)
         doubleEncodePlusParam("track", track.name)
         parameter("limit", limit)
-        parameter("format", "json")
-        parameter("api_key", apiKey)
+        commonReq()
     }.map { it.similartracks.track }
 
     // tag
     suspend fun tagGetInfo(tag: String) =
         client.getResult<TagGetInfoResponse> {
-            url(Stuff.LASTFM_API_ROOT)
             parameter("method", "tag.getInfo")
             parameter("tag", tag)
-            parameter("format", "json")
-            parameter("api_key", apiKey)
+            commonReq()
         }.map { it.tag }
 
     suspend fun getToken(

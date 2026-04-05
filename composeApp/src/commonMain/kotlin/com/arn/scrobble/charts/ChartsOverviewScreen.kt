@@ -51,9 +51,9 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arn.scrobble.api.AccountType
 import com.arn.scrobble.api.UserCached
@@ -69,7 +69,6 @@ import com.arn.scrobble.icons.BarChart4Bars
 import com.arn.scrobble.icons.Icons
 import com.arn.scrobble.icons.Mic
 import com.arn.scrobble.icons.MusicNote
-import com.arn.scrobble.icons.QuestionMark
 import com.arn.scrobble.icons.Tag
 import com.arn.scrobble.navigation.PanoRoute
 import com.arn.scrobble.ui.ButtonWithIcon
@@ -145,7 +144,7 @@ fun ChartsOverviewScreen(
     onNavigate: (PanoRoute) -> Unit,
     onTitleChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: ChartsVM = viewModel(key = user.key<ChartsVM>()) { ChartsVM(user.name, true) },
+    viewModel: ChartsVM = viewModel(key = user.key<ChartsVM>()) { ChartsVM(user, true) },
     chartsPeriodViewModel: ChartsPeriodVM = viewModel(key = user.key<ChartsPeriodVM>()) {
         ChartsPeriodVM(user)
     },
@@ -176,14 +175,14 @@ fun ChartsOverviewScreen(
     val minAdditionalScrollOffset = with(density) { 96.dp.toPx() }
 
     var tagCloudOffsetY by rememberSaveable { mutableFloatStateOf(0f) }
-    val tagCloudVisible by remember {
+    val scrolledToTagCloud by remember {
         derivedStateOf {
             scrollState.value + scrollState.viewportSize >=
                     tagCloudOffsetY + minAdditionalScrollOffset
         }
     }
     var listeningActivityOffsetY by rememberSaveable { mutableFloatStateOf(0f) }
-    val listeningActivityVisible by remember {
+    val scrolledToListeningActivity by remember {
         derivedStateOf {
             scrollState.value + scrollState.viewportSize >=
                     listeningActivityOffsetY + minAdditionalScrollOffset
@@ -215,16 +214,21 @@ fun ChartsOverviewScreen(
         )
     }
 
-    LaunchedEffect(artists.loadState.refresh, tagCloudVisible, listeningActivityVisible) {
-        if (artists.loadState.refresh !is LoadState.Loading) {
-            if (tagCloudVisible && tagCloud == null) {
-                viewModel.loadTagCloud(artists.itemSnapshotList.items)
-            }
+    LaunchedEffect(scrolledToTagCloud) {
+        viewModel.setTagCloudVisible(scrolledToTagCloud)
+    }
 
-            if (listeningActivityVisible && listeningActivity == null) {
-                val timePeriod = chartsPeriodViewModel.selectedPeriod.value ?: return@LaunchedEffect
-                viewModel.loadListeningActivity(user, artists.itemSnapshotList.items, timePeriod)
-            }
+    LaunchedEffect(scrolledToListeningActivity) {
+        viewModel.setListeningActivityVisible(scrolledToListeningActivity)
+    }
+
+    LifecycleResumeEffect(Unit) {
+        viewModel.setTagCloudVisible(scrolledToTagCloud)
+        viewModel.setListeningActivityVisible(scrolledToListeningActivity)
+
+        onPauseOrDispose {
+            viewModel.setTagCloudVisible(false)
+            viewModel.setListeningActivityVisible(false)
         }
     }
 
@@ -462,7 +466,7 @@ private fun TagCloudContent(
 
     val density = LocalDensity.current
 
-    LaunchedEffect(tagCloud, hiddenTags) {
+    LaunchedEffect(tagCloud, hiddenTags, tagCloudSizePx) {
         withContext(Dispatchers.Default) {
             tagCloud?.let {
                 if (tagCloudSizePx > 0 && tagCloud.isNotEmpty()) {
@@ -508,17 +512,20 @@ private fun TagCloudContent(
                     .align(Alignment.CenterHorizontally)
                     .widthIn(max = 370.dp)
                     .aspectRatio(1f)
-                    .clip(CircleShape)
+                    .then(
+                        if (isLoading)
+                            Modifier
+                                .shimmerWindowBounds()
+                                .backgroundForShimmer(true, shape = CircleShape)
+                        else
+                            Modifier
+                                .clip(CircleShape)
+                    )
                     .indication(interactionSource, LocalIndication.current)
                     .focusable(interactionSource = interactionSource)
                     .onGloballyPositioned { coordinates ->
                         tagCloudSizePx = coordinates.size.width
                     }
-                    .then(
-                        if (isLoading) Modifier
-                            .backgroundForShimmer(true, shape = CircleShape)
-                            .shimmerWindowBounds() else Modifier
-                    )
             ) {
                 EmptyText(
                     visible = tagCloud?.isEmpty() == true,

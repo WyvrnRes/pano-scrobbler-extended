@@ -9,6 +9,7 @@ import com.arn.scrobble.api.DrawerData
 import com.arn.scrobble.api.UserCached
 import com.arn.scrobble.api.lastfm.ApiException
 import com.arn.scrobble.billing.PurchaseMethod
+import com.arn.scrobble.db.PanoDb
 import com.arn.scrobble.edits.EditScrobbleUtils
 import com.arn.scrobble.pref.AppItem
 import com.arn.scrobble.ui.PanoSnackbarVisuals
@@ -16,8 +17,10 @@ import com.arn.scrobble.utils.PlatformStuff
 import com.arn.scrobble.utils.Stuff
 import com.arn.scrobble.utils.VariantStuff
 import com.arn.scrobble.utils.redactedMessage
+import com.arn.scrobble.work.CommonWorkState
 import com.arn.scrobble.work.DigestWork
 import com.arn.scrobble.work.DigestWorker
+import com.arn.scrobble.work.PendingScrobblesWork
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -25,7 +28,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerializationException
 import java.util.Calendar
@@ -55,7 +57,7 @@ class MainViewModel : ViewModel() {
     val editScrobbleUtils = EditScrobbleUtils(viewModelScope)
 
     init {
-        Stuff.globalExceptionFlow.mapLatest { e ->
+        Stuff.globalExceptionFlow.map { e ->
             if (BuildKonfig.DEBUG)
                 e.printStackTrace()
 
@@ -89,6 +91,21 @@ class MainViewModel : ViewModel() {
                     )
                 }
             }
+
+        // schedule pending scrobbles work on UI start
+        viewModelScope.launch {
+            val force = PanoDb.db.getPendingScrobblesDao().canForceRetry()
+            val hasPending = if (!force)
+                PanoDb.db.getPendingScrobblesDao().count() > 0
+            else
+                true
+
+            val isRunning = PendingScrobblesWork.state().first() == CommonWorkState.RUNNING
+
+            if (hasPending && !isRunning) {
+                PendingScrobblesWork.schedule(force)
+            }
+        }
     }
 
     fun checkAndStoreLicense(receipt: String) {
@@ -110,7 +127,6 @@ class MainViewModel : ViewModel() {
 
     override fun onCleared() {
         repository.endDataSourceConnections()
-        super.onCleared()
     }
 
 

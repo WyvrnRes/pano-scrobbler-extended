@@ -74,6 +74,7 @@ Installing the non-Play version from the F-Droid compatible repo, IzzyOnDroid or
 - Search Lastfm for a songs, artists, or albums
 - Themes
 - Remember and see apps you scrobbled from and play directly in them
+- Proxy support
 
 #### For desktop and Android (except TV):
 - Scrobble to a CSV or JSONL file locally
@@ -85,7 +86,7 @@ Installing the non-Play version from the F-Droid compatible repo, IzzyOnDroid or
 - Control Pano Scrobbler from automation apps on Android or command-line on desktop
 
 #### Android only (except TV):
-- Scrobble from music recognition apps and Pixel Now Playing
+- Scrobble from music recognition apps: Shazam, Ambient Music Mod and Audile
 - Charts as a customizable home-screen widget
 - Get your top scrobbles digests as a notification at the end of every week, month and year
 
